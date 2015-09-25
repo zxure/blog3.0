@@ -1,4 +1,4 @@
-package zx.blog.article.dao;
+package zx.blog.mapper;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import zx.blog.article.domain.Article;
 
-public interface ArticleDao {
+public interface ArticleMapper {
 	/**
 	 * 新增文章
 	 * @param article

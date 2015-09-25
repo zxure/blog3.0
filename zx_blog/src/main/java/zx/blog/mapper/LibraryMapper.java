@@ -1,8 +1,8 @@
-package zx.blog.library.dao;
+package zx.blog.mapper;
 
 import zx.blog.library.domain.Library;
 
-public interface LibraryDao {
+public interface LibraryMapper {
 	
 	/**
 	 * 插入

@@ -1,8 +1,8 @@
-package zx.blog.log.dao;
+package zx.blog.mapper;
 
 import zx.blog.log.domain.LoginLog;
 
-public interface LogDao {
+public interface LogMapper {
 	/**
 	 * 登入日志记录
 	 * @param loginLog

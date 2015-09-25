@@ -5,18 +5,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import zx.blog.article.dao.ArticleDao;
-import zx.blog.category.dao.CategoryDao;
 import zx.blog.category.domain.Category;
 import zx.blog.category.service.CategoryService;
 import zx.blog.common.SystemContext;
+import zx.blog.mapper.ArticleMapper;
+import zx.blog.mapper.CategoryMapper;
 @Component
 public class CategoryServiceImpl implements CategoryService{
 
 	@Autowired
-	private CategoryDao categoryDao;
+	private CategoryMapper categoryDao;
 	@Autowired
-	private ArticleDao articleDao;
+	private ArticleMapper articleDao;
 
 	@Override
 	public List<Category> findAllCategory() {

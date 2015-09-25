@@ -8,23 +8,23 @@ import org.htmlparser.util.ParserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import zx.blog.article.dao.ArticleDao;
 import zx.blog.article.domain.Article;
 import zx.blog.article.dto.SimpleArticleDto;
 import zx.blog.article.service.ArticleService;
 import zx.blog.article.utils.ArticleBriefTools;
 import zx.blog.cache.container.CacheHolder;
-import zx.blog.category.dao.CategoryDao;
 import zx.blog.category.domain.Category;
 import zx.blog.common.SystemContext;
+import zx.blog.mapper.ArticleMapper;
+import zx.blog.mapper.CategoryMapper;
 import zx.blog.util.PageUtils;
 
 @Component
 public class ArticleServiceImpl implements ArticleService{
 	@Autowired
-	private ArticleDao articleDao;
+	private ArticleMapper articleDao;
 	@Autowired
-	private CategoryDao categoryDao;
+	private CategoryMapper categoryDao;
 	
 	private static final int ARTICLE_BRIEF_LENGTH = 300;
 

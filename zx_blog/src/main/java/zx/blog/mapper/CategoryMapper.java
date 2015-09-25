@@ -1,10 +1,10 @@
-package zx.blog.category.dao;
+package zx.blog.mapper;
 
 import java.util.List;
 
 import zx.blog.category.domain.Category;
 
-public interface CategoryDao {
+public interface CategoryMapper {
 	/**
 	 * 查询全部的类别
 	 * @return

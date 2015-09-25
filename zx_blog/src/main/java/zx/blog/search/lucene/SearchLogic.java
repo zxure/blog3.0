@@ -39,13 +39,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.ServletContextAware;
 import org.wltea.analyzer.lucene.IKAnalyzer;
 
-import zx.blog.article.dao.ArticleDao;
 import zx.blog.article.domain.Article;
+import zx.blog.mapper.ArticleMapper;
 
 @Component
 public class SearchLogic implements ServletContextAware{
 	@Autowired
-	private ArticleDao articleDao;
+	private ArticleMapper articleDao;
 	Analyzer analyzer = new IKAnalyzer();
 	private String path = "";
 

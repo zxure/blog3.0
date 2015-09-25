@@ -6,14 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import zx.blog.cache.container.CacheHolder;
-import zx.blog.user.dao.UserDao;
+import zx.blog.mapper.UserMapper;
 import zx.blog.user.domain.User;
 import zx.blog.user.service.UserService;
 
 @Component
 public class UserServiceImpl implements UserService{
 	@Autowired
-	private UserDao userDao;
+	private UserMapper userDao;
 	
 	@Override
 	public List<User> findAllUser() {

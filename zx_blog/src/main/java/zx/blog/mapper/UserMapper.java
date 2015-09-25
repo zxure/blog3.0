@@ -1,4 +1,4 @@
-package zx.blog.user.dao;
+package zx.blog.mapper;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import zx.blog.user.domain.User;
 
-public interface UserDao {
+public interface UserMapper {
 	/**
 	 * 查询全部的用户
 	 * @return 全部的用户
