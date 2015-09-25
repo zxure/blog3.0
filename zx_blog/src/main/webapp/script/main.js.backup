@@ -1,0 +1,333 @@
+window.onload=function(){
+
+	goTop();
+	//chgBackgroundColor();
+};
+
+var goTop = function(){
+	var backTopBtn = document.getElementById("backToTop");
+	var timer = null;
+	window.onscroll = function(){
+		var topPos = document.documentElement.scrollTop || document.body.scrollTop;
+		//if(topPos <= clientHeight)
+		if(topPos <= 0)
+			backTopBtn.style.display = "none";
+		else
+			backTopBtn.style.display = "block";
+	};
+	
+	var isUpBtnClick = false;
+
+	backTopBtn.onclick = function(){
+		if(isUpBtnClick) return;
+		timer = setInterval(function(){
+			isUpBtnClick = true;
+			var topPos = document.documentElement.scrollTop || document.body.scrollTop;
+			var offset = Math.floor(-topPos/6);
+			document.documentElement.scrollTop = document.body.scrollTop = topPos + offset;
+			if(topPos <= 0){
+				isUpBtnClick = false;
+				clearInterval(timer);
+			}
+		},30);
+	};
+};
+
+;(function($){
+	$.fn.layer = {
+			layerCodeLayer : function(title, content){
+				title = title || "请插入代码";
+				var codeLayer = $("<div></div>");
+				codeLayer.addClass("zx-comment-layer-main");
+				var codeLayerTitle = $("<span>"+ title +"</span>");
+				codeLayerTitle.addClass("zx-comment-layer-title");
+				var closeCross = $("<i></i>");
+				closeCross.addClass("fa fa-times-circle zx-comment-layer-title-close-cross");
+				closeCross.appendTo(codeLayerTitle);
+				closeCross.one('click',function(){remove(codeLayer, "zx-comment-code", title, 1);});
+				codeLayerTitle.appendTo(codeLayer);
+				var codeLayerContent = $("<textarea></textarea>");
+				codeLayerContent.addClass("zx-comment-layer-code-content");
+				codeLayerContent.appendTo(codeLayer);
+				var codeLayerFooter = $("<span></span>");
+				codeLayerFooter.addClass("zx-comment-layer-footer");
+				var confirmBtn = $("<button>贴入</botton>");
+				confirmBtn.addClass("zx-btn zx-btn-green");
+				confirmBtn.appendTo(codeLayerFooter);
+				confirmBtn.one('click',function(){
+					//插入代码
+					var contentArea = $("#content-area");
+					//验证
+					if(contentArea.val().trim() == ""){
+						return ;
+					}
+					contentArea.val(contentArea.val() + "<pre>\n"+ codeLayerContent.val() +"</pre>\n");
+					//移除弹出层
+					remove(codeLayer, "zx-comment-code", title, 1);
+				});
+				var cancelBtn = $("<button>取消</botton>");
+				cancelBtn.addClass("zx-btn zx-btn-red");
+				cancelBtn.appendTo(codeLayerFooter);
+				cancelBtn.one('click',function(){remove(codeLayer, "zx-comment-code", title, 1);});
+				codeLayerFooter.appendTo(codeLayer);
+				codeLayer.appendTo("body");
+				codeLayerContent.focus();
+			},
+			layerImageLayer : function(title, content){
+				title = title || "填写图片url插入图片";
+				var imageLayer = $("<div></div>");
+				imageLayer.addClass("zx-comment-layer-main");
+				var imageLayerTitle = $("<span>"+ title +"</span>");
+				imageLayerTitle.addClass("zx-comment-layer-title");
+				var closeCross = $("<i></i>");
+				closeCross.addClass("fa fa-times-circle zx-comment-layer-title-close-cross");
+				closeCross.appendTo(imageLayerTitle);
+				closeCross.one('click',function(){remove(imageLayer, "zx-comment-image", title, 2);});
+				imageLayerTitle.appendTo(imageLayer);
+				var imageLayerContent = $("<input></input>");
+				imageLayerContent.addClass("zx-comment-layer-image-content");
+				imageLayerContent.attr("placeholder", "请填写图片url...");
+				imageLayerContent.appendTo(imageLayer);
+				var imageLayerFooter = $("<span></span>");
+				imageLayerFooter.addClass("zx-comment-layer-footer");
+				var confirmBtn = $("<button>贴入</botton>");
+				confirmBtn.addClass("zx-btn zx-btn-green");
+				confirmBtn.appendTo(imageLayerFooter);
+				confirmBtn.one('click',addImgUrl);
+				var cancelBtn = $("<button>取消</botton>");
+				cancelBtn.addClass("zx-btn zx-btn-red");
+				cancelBtn.appendTo(imageLayerFooter);
+				cancelBtn.one('click',function(){remove(imageLayer, "zx-comment-image", title, 2);});
+				imageLayerFooter.appendTo(imageLayer);
+				imageLayer.appendTo("body");
+				imageLayerContent.focus();
+				
+				function addImgUrl(){
+					//图片地址
+					var imgUrl = imageLayerContent.val().trim();
+					//验证
+					if(imgUrl == ""){
+						confirmBtn.one('click',addImgUrl);
+						alert("图片地址无效");
+						return ;
+					}
+					//插入图片地址
+					var contentArea = $("#content-area");
+					contentArea.val(contentArea.val() + "<img src=\""+ imgUrl +"\">\n");
+					//移除弹出层
+					remove(imageLayer, "zx-comment-image", title, 2);
+				}
+			},
+			layerPreviewLayer : function(title, content){
+				title = title || "预览";
+				var previewLayer = $("<div></div>");
+				previewLayer.addClass("zx-comment-layer-main-preview");
+				
+				var previewLayerTitle = $("<span>"+ title +"</span>");
+				previewLayerTitle.addClass("zx-comment-layer-title");
+				var closeCross = $("<i></i>");
+				closeCross.addClass("fa fa-times-circle zx-comment-layer-title-close-cross");
+				closeCross.appendTo(previewLayerTitle);
+				closeCross.one('click',function(){remove(previewLayer, "zx-comment-preview", title, 3);});
+				previewLayerTitle.appendTo(previewLayer);
+				
+				//内容
+				$("<div>" + $("#content-area").val() + "</div>").appendTo(previewLayer);
+				
+				previewLayer.appendTo("body");
+				
+				previewLayer.find("pre").each(function(i, block) {
+					hljs.highlightBlock(block);
+				});
+				previewLayer.find("img").each(function(){modifyImg.call(this)});
+			},
+	}
+	
+	function remove(element, id, title, type){
+		element.remove();
+		$("#" + id).one('click', function(){
+			var self = $(this);
+			switch(type){
+				case 1 : self.layer.layerCodeLayer(title,"");break;
+				case 2 : self.layer.layerImageLayer(title,"");break;
+				case 3 : self.layer.layerPreviewLayer(title,"");break;
+			}	
+			
+		});
+	}
+})(jQuery);
+
+;(function(){
+	$("#zx-comment-image").one('click', function(){
+		var self = $(this);
+		self.layer.layerImageLayer("嵌入图片","");
+	});
+	$("#zx-comment-code").one('click', function(){
+		var self = $(this);
+		self.layer.layerCodeLayer("贴入代码","");
+	});
+	$("#zx-comment-preview").one('click', function(){
+		var self = $(this);
+		self.layer.layerPreviewLayer("预览","");
+	});
+	
+	//评论提交按钮
+	$("#commentPostBtn").bind('click', makeComment);
+	
+	//点赞按钮
+	$(".comment-support").one('click', support);
+	
+	//回复按钮
+	$(".comment-reply").bind('click', reply);
+	
+	function makeComment(){
+		//先检查参数
+		if($("#commentName").val().trim() == ""){
+			alert("名字不能为空");
+			return ;
+		}
+		var commentUrl = $("#commentUrl").val().trim(); 
+		var regUrlObj = /^(https?:\/\/)([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/gi;
+		if( commentUrl != "" && !regUrlObj.test(commentUrl) ){
+			alert("地址格式错误！");
+			return ;
+		}
+		var commentEmail = $("#commentEmail").val().trim(); 
+		var regEmailObj = /^[a-z_\d]+(\.[a-z\d]+)*@([\da-z](-[\da-z])?)+(\.{1,2}[a-z]+)+$/gi;
+		if( commentEmail != "" && !regEmailObj.test(commentEmail) ){
+			alert("邮箱格式错误！");
+			return ;
+		}
+		if($("#content-area").val().trim() == ""){
+			alert("评论内容不能为空");
+			return ;
+		}
+		ajaxRequest(
+				{
+					"articleId":$("#articleId").val(), 
+					"replyId":$("#replyId").val(), 
+					"commentName":$("#commentName").val().trim(),
+					"commentUrl":$("#commentUrl").val().trim(),
+					"commentEmail":$("#commentEmail").val().trim(),
+					"commentContent":$("#content-area").val().trim(),
+				},
+				"post",
+				"/zx_blog/comment/makeComment")
+		.then(function(result){
+			//评论成功
+			var commentElementStr = "<div class=\"zx-comment-show-container\">" + 
+				"<div class=\"zx-comment-show-header\">" +
+					"<img src=\"image/user-image.png\">" +
+					"<span id=\""+result.commentId+"-commenterName\">";
+			if($("#commentUrl").val().trim() != ''){
+				commentElementStr = commentElementStr + "<a href=\""+$("#commentUrl").val().trim()+"\">";
+			}
+			commentElementStr = commentElementStr + "<i class=\"fa fa-user\"></i>" + $("#commentName").val().trim();
+			if($("#commentUrl").val().trim() != ''){
+				commentElementStr = commentElementStr + "</a>";
+			}
+			commentElementStr = commentElementStr +"</span>" +
+					"<span><i class=\"fa fa-clock-o\"></i>" + result.commentTime + "</span>" +
+				"</div>" +
+				"<div class=\"zx-comment-show-content\">" + 
+				$("#content-area").val().trim() +
+				"</div>" +
+				"<div class=\"zx-comment-show-footer\">" +
+					"<span class=\"comment-support\" id=\""+result.commentId+"-support\"><i class=\"fa fa-thumbs-up\"></i> <em>0</em></span>" +
+					"<span class=\"comment-reply\" id=\""+result.commentId+"-reply\"><i class=\"fa fa-reply\"></i> 回复</span>" +
+				"</div>"+
+			"</div>";
+			var commentElement = $(commentElementStr);
+			$(".zx-comment-show-container").last().after(commentElement);
+			//代码高亮
+			commentElement.find("pre").each(function(i, block) {
+				hljs.highlightBlock(block);
+			});
+			commentElement.find("img").each(function(){modifyImg.call(this)});
+			//回复按钮
+			commentElement.find(".comment-support").last().one('click', support);
+			commentElement.find(".comment-reply").last().bind('click', reply);
+			$("#replyId").val(""); 
+			$("#commentName").val("");
+			$("#commentUrl").val("");
+			$("#commentEmail").val("");
+			$("#commentName").val("");
+			$("#content-area").val("");
+			//alert(result.msgCode);
+		}, function(result){
+			//评论失败
+			alert(result.msgCode);
+		});
+	}
+	
+	//点赞
+	function support(){
+		var self = this;
+		var commentId = $(this).attr("id").split("-")[0];
+		ajaxRequest({"commentId":commentId}, "post", "/zx_blog/comment/support")
+		.then(function(result){
+			$(self).text("已赞 " + result.supportNum);
+			//$(self).find("em").text(result.supportNum);
+			
+		}, function(result){
+			alert("点赞出错了！");
+		});
+	}
+	
+	//回复
+	function reply(){
+		var self = this;
+		var commentId = $(this).attr("id").split("-")[0];
+		$("#replyId").val(commentId); 
+		$("html,body").animate({scrollTop: $("#content-area").offset().top}, 500);
+		$("#content-area").val("@" + $("#" + commentId + "-commenterName").text().trim() + " ");
+		$("#content-area").focus();
+	}
+	
+})();
+
+/**
+ * 发送ajax请求
+ * formData 要发送的数据
+ * reqestType 请求方式
+ * url 请求地址
+ */
+function ajaxRequest(formData, requestType, url){
+	return new Promise(function(resolve, reject){
+		$.ajax({
+			type: requestType,
+			url: url,
+			data: formData,
+			success: function(data){resolve(data);},
+			error: function(data){reject(data);}
+		});
+	});
+}
+
+function modifyImg(){
+    var error = false;
+    if (!this.complete) {
+        error = true;
+    }
+    if (typeof this.naturalWidth != "undefined" && this.naturalWidth == 0) {
+        error = true;
+    }
+    if(error){
+        $(this).bind('error.replaceSrc',function(){
+            this.src = "image/user-image.png";
+            $(this).unbind('error.replaceSrc');
+        }).trigger('load');
+    }
+}
+
+//<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+var duoshuoQuery = {short_name:"xuanzh"};
+(function() {
+	var ds = document.createElement('script');
+	ds.type = 'text/javascript';ds.async = true;
+	ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+	ds.charset = 'UTF-8';
+	(document.getElementsByTagName('head')[0] 
+	 || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+//<!-- 多说公共JS代码 end -->

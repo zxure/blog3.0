@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="zx.blog.library.dao.LibraryDao">
+
+<!-- 查询全部 -->
+<select id="findAll" resultType="Library">
+	select libraryId as libraryId,
+	title as title,
+	itemName as itemName,
+	fileName as fileName,
+	mappingShortUrl as mappingShortUrl,
+	uploadTime as uploadTime 
+	from library
+</select>
+
+<!-- 插入 -->
+<insert id="insert" parameterType="Library">
+	insert into library(title, itemName, fileName, mappingShortUrl, uploadTime) values(#{title}, #{itemName}, #{fileName}, #{mappingShortUrl}, #{uploadTime});
+	<selectKey resultType="int" keyProperty="libraryId" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+</insert>
+
+<update id="update" parameterType="Library">
+	update library set title=#{title} itemName=#{itemName}, fileName=#{fileName}, mappingShortUrl=#{mappingShortUrl}, uploadTime=#{uploadTime} where libraryId=#{libraryId}
+</update>
+
+</mapper>
+
+

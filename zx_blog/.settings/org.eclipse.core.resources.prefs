@@ -1,0 +1,13 @@
+eclipse.preferences.version=1
+encoding//src/main/resources/props/db.properties.bak=UTF-8
+encoding//src/main/resources/props/system.properties=UTF-8
+encoding//src/main/webapp/WEB-INF/views/front/album/viewAlbum.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/front/footer.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/front/header.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/front/index.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/front/sidebar.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/library/clock/clock.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/web.xml=UTF-8
+encoding//src/main/webapp/style/backstage/backstage-main.css=UTF-8
+encoding//src/main/webapp/style/main.css=UTF-8
+encoding/<project>=UTF-8

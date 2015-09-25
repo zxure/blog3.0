@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd hh:mm:ss}:%p %t %c - %m%n" />
+		</layout>
+	</appender>
+
+
+	<!-- 普通信息 -->
+	<appender name="blogInfo" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="${log4jdir}/blogInfo.log" />
+		<param name="DatePattern" value="'_'yyyy-MM-dd'.log'" />
+		<param name="Encoding" value="UTF-8" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yy-MM-dd HH:mm:ss} %p][%c] %m %n" />
+		</layout>
+	</appender>
+	
+	<!-- 定时任务 -->
+	<appender name="timeEventLog" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="${log4jdir}/timeEvent.log" />
+		<param name="DatePattern" value="'_'yyyy-MM-dd'.log'" />
+		<param name="Encoding" value="UTF-8" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yy-MM-dd HH:mm:ss} %m %n" />
+		</layout>
+	</appender>
+	
+	<!-- 异步操作 -->
+	<appender name="asyncOperate" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="${log4jdir}/asyncoperate.log" />
+		<param name="DatePattern" value="'_'yyyy-MM-dd'.log'" />
+		<param name="Encoding" value="UTF-8" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yy-MM-dd HH:mm:ss} %m %n" />
+		</layout>
+	</appender>
+
+	<logger name="zx.blog.ueditor" additivity="false">
+		<level value="info" />
+		<appender-ref ref="blogInfo" />
+	</logger>
+	<logger name="zx.blog.article.controller.ArticleController" additivity="false">
+		<level value="info" />
+		<appender-ref ref="blogInfo" />
+	</logger>
+
+	<root>
+		<level value="info" />
+		<appender-ref ref="stdout" />
+	</root>
+
+</log4j:configuration>
+

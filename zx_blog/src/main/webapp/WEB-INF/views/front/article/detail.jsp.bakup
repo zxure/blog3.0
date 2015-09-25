@@ -1,0 +1,66 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="../header.jsp" %>
+	<!-- 主体部分 -->
+	<div class="zx-content">
+		<!--  主体左边 -->
+		<div class="zx-content-left">
+			<div class="zx-article-container-detail">
+				<article class="zx-article-detail">
+					<header>
+						<h1 class="zx-article-title-detail">
+							<span class="zx-article-title-detail-name">
+								<a href="article/${article.articleId}">${article.title}</a>
+							</span>
+						</h1>
+ 						<div class="zx-article-detail-meta">
+							<span> ${article.authorName} 发布于  ${article.postTimeStr } 之前</span>
+						</div>
+					</header>
+					<div class="zx-article-detail-content">
+						${article.content }
+					</div>
+				</article>
+			</div>
+			<!-- 评论  -->
+			<c:forEach items="${comments}" var="comment">
+			<div class="zx-comment-show-container">
+				<div class="zx-comment-show-header">
+					<img src="image/user-image.png">
+					<span id="${comment.commentId}-commenterName">
+					<c:if test="${comment.commenterLink != null && comment.commenterLink != ''}">
+					<a href="${comment.commenterLink}"><i class="fa fa-user"></i> ${comment.commenterName }</a>
+					</c:if>
+					<c:if test="">
+					<i class="fa fa-user"></i> ${comment.commenterName }
+					</c:if>
+					</span>
+					<span><i class="fa fa-clock-o"></i> ${comment.commentTime }</span>
+				</div>
+				<div class="zx-comment-show-content">
+					${comment.commentContent }
+				</div>
+				<div class="zx-comment-show-footer">
+					<span class="comment-support" id="${comment.commentId}-support"><i class="fa fa-thumbs-up"></i> <em>${comment.supportNum }</em></span>
+					<span class="comment-reply" id="${comment.commentId}-reply"><i class="fa fa-reply"></i> 回复</span>
+				</div>
+			</div>
+			</c:forEach>
+			
+			<div class="zx-comment-post-container">
+				<input type="text" class="commenter-info" id="commentName" name="commentName" placeholder="您的大名">
+				<input type="text" class="commenter-info" id="commentUrl" name="commentUrl" placeholder="个人地址">
+				<input type="text" class="commenter-info" id="commentEmail" name="commentEmail" placeholder="邮箱地址">
+				<input type="hidden" id="replyId" name="replyId" value="-1">
+				<input type="hidden" id="articleId" name="articleId" value="${article.articleId}">
+				<ul class="zx-comment-menu">
+					<li id="zx-comment-image"><span><i class="fa fa-image"> 图片</i></span></li>
+					<li id="zx-comment-code"><span><i class="fa fa-code"> 代码</i></span></li>
+					<li id="zx-comment-preview"><span><i class="fa fa-eye"> 预览</i></span></li>
+				</ul>
+				<textarea id="content-area" class="zx-comment-content" name="commentContent" placeholder="来了就说点什么吧。。。"></textarea>
+				<div class="zx-comment-submit"><button id="commentPostBtn" class="zx-btn zx-btn-blue">吐槽完毕</button></div>
+			</div>
+		</div>
+		<%@ include file="../sidebar.jsp" %>
+	</div>
+<%@ include file="../footer.jsp" %>

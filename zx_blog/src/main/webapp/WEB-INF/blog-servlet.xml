@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+                        http://www.springframework.org/schema/aop
+                        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+                        http://www.springframework.org/schema/tx
+                        http://www.springframework.org/schema/tx/spring-tx-4.0.xsd 
+                        http://www.springframework.org/schema/mvc
+                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+        <mvc:annotation-driven />
+		<context:component-scan base-package="zx.blog.**.controller"/>
+		
+		<!-- 配置静态资源 -->
+		<mvc:resources mapping="/script/**" location="/script/" />
+		<mvc:resources mapping="/style/**" location="/style/" />
+		<mvc:resources mapping="/image/**" location="/image/" />
+		<mvc:resources mapping="/fonts/**" location="/fonts/" />
+		<mvc:resources mapping="/upload/**" location="/upload/" />
+		
+		<!-- 拦截器 -->
+		<mvc:interceptors>
+			<!-- 后台管理登录拦截器 -->
+			<mvc:interceptor>
+				<mvc:mapping path="/admin/**"/>
+				<mvc:exclude-mapping path="/admin/loginPage"/>
+				<mvc:exclude-mapping path="/admin/login"/>
+				<bean class="zx.blog.user.interceptor.UserSecurityInterceptor" />
+			</mvc:interceptor>
+		</mvc:interceptors>
+
+		<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		p:prefix="/WEB-INF/views/"
+		p:suffix=".jsp" />
+</beans>
