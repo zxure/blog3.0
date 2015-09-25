@@ -16,20 +16,22 @@ public class SimpleArticleDto {
 		super();
 	}
 
-	public SimpleArticleDto(int articleId, String title, int authorId,
+	public static SimpleArticleDto valueOf(int articleId, String title, int authorId,
 			String authorName, String authorImgUrl, int categoryId,
 			String categoryName, int postTime, String postTimeStr, int totalViewTimes) {
-		super();
-		this.articleId = articleId;
-		this.title = title;
-		this.authorId = authorId;
-		this.authorName = authorName;
-		this.authorImgUrl = authorImgUrl;
-		this.categoryId = categoryId;
-		this.categoryName = categoryName;
-		this.postTime = postTime;
-		this.postTimeStr = postTimeStr;
-		this.totalViewTimes = totalViewTimes;
+		SimpleArticleDto simpleArticleDto = new SimpleArticleDto();
+		simpleArticleDto.articleId = articleId;
+		simpleArticleDto.title = title;
+		simpleArticleDto.authorId = authorId;
+		simpleArticleDto.authorName = authorName;
+		simpleArticleDto.authorImgUrl = authorImgUrl;
+		simpleArticleDto.categoryId = categoryId;
+		simpleArticleDto.categoryName = categoryName;
+		simpleArticleDto.postTime = postTime;
+		simpleArticleDto.postTimeStr = postTimeStr;
+		simpleArticleDto.totalViewTimes = totalViewTimes;
+		
+		return simpleArticleDto;
 	}
 
 

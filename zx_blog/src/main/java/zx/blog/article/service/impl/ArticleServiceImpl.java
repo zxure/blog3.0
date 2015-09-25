@@ -10,8 +10,6 @@ import org.springframework.stereotype.Component;
 
 import zx.blog.article.dao.ArticleDao;
 import zx.blog.article.domain.Article;
-import zx.blog.article.dto.ArticleConvert;
-import zx.blog.article.dto.ArticleDto;
 import zx.blog.article.dto.SimpleArticleDto;
 import zx.blog.article.service.ArticleService;
 import zx.blog.article.utils.ArticleBriefTools;
@@ -49,14 +47,11 @@ public class ArticleServiceImpl implements ArticleService{
 		List<Article> articles = articleDao.findOnePageArticle(start, end);
 		List<Article> articleDtos = new ArrayList<Article>();
 		for(Article article : articles){
-			ArticleDto articleDto = ArticleConvert.convertToArticleDto(article);
-			String content = articleDto.getContent();
 			try {
-				articleDto.setContent(ArticleBriefTools.getBrief(content, ARTICLE_BRIEF_LENGTH));
+				article.setBriefContent(ArticleBriefTools.getBrief(article.getContent(), ARTICLE_BRIEF_LENGTH));
 			} catch (ParserException e) {
 				e.printStackTrace();
 			}
-			articleDtos.add(articleDto);
 		}
 		return articleDtos;
 	}
@@ -67,21 +62,20 @@ public class ArticleServiceImpl implements ArticleService{
 	}
 	
 	@Override
-	public ArticleDto viewArticleById(int articleId) {
+	public Article viewArticleById(int articleId) {
 		//修改浏览次数
 		Article article = this.getArticleById(articleId);
-		ArticleDto articleDto = ArticleConvert.convertToArticleDto(article);
 		article.setTotalViewTimes(article.getTotalViewTimes() + 1);
 		article.setDayViewTimes(article.getDayViewTimes() + 1);
 		article.setWeekViewTimes(article.getWeekViewTimes() + 1);
 		article.setMonthViewTimes(article.getMonthViewTimes() + 1);
 		this.updateArticle(article);
-		return articleDto;
+		return article;
 	}
 
 	@Override
-	public ArticleDto getArticleDtoById(int articleId) {
-		return ArticleConvert.convertToArticleDto(this.articleDao.findById(articleId));
+	public Article getArticleDtoById(int articleId) {
+		return this.articleDao.findById(articleId);
 	}
 	
 	@Override
@@ -99,25 +93,21 @@ public class ArticleServiceImpl implements ArticleService{
 		List<Article> articles = this.articleDao.findAll();
 		List<SimpleArticleDto> simpleArticleDtos = new ArrayList<SimpleArticleDto>();
 		for(Article article : articles)
-			simpleArticleDtos.add(ArticleConvert.convertToSimpleArticleDto(article));
+			simpleArticleDtos.add(null);
 		return simpleArticleDtos;
 	}
 
 	@Override
-	public List<ArticleDto> getArticleByCategory(int categoryId) {
+	public List<Article> getArticleByCategory(int categoryId) {
 		List<Article> articles = this.articleDao.findByCategoryId(categoryId);
-		List<ArticleDto> articleDtos = new ArrayList<ArticleDto>();
 		for(Article article : articles){
-			ArticleDto articleDto = ArticleConvert.convertToArticleDto(article);
-			String content = articleDto.getContent();
 			try {
-				articleDto.setContent(ArticleBriefTools.getBrief(content, ARTICLE_BRIEF_LENGTH));
+				article.setBriefContent(ArticleBriefTools.getBrief(article.getContent(), ARTICLE_BRIEF_LENGTH));
 			} catch (ParserException e) {
 				e.printStackTrace();
 			}
-			articleDtos.add(articleDto);
 		}
-		return articleDtos;
+		return articles;
 	}
 	
 	@Override

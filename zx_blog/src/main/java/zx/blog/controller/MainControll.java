@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import zx.blog.article.dto.ArticleDto;
+import zx.blog.article.domain.Article;
 import zx.blog.article.service.ArticleService;
 import zx.blog.cache.container.CacheHolder;
 import zx.blog.category.domain.Category;
@@ -23,7 +23,7 @@ public class MainControll {
 		ModelAndView mdv = new ModelAndView();
 		mdv.setViewName("front/index");
 		//首页文章信息
-		List<ArticleDto> articles = articleService.getArticlesByPage(1);
+		List<Article> articles = articleService.getArticlesByPage(1);
 		mdv.addObject("articles", articles);
 
 		//首页类别信息

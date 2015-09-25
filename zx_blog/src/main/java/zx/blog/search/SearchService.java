@@ -3,7 +3,6 @@ package zx.blog.search;
 import java.util.List;
 
 import zx.blog.article.domain.Article;
-import zx.blog.article.dto.ArticleDto;
 
 public interface SearchService {
 	/**
@@ -12,7 +11,7 @@ public interface SearchService {
 	 * @return
 	 * @throws Exception 
 	 */
-	public List<ArticleDto> doSearch(String keyWord);
+	public List<Article> doSearch(String keyWord);
 
 	/**
 	 * 添加索引

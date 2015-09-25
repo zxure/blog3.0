@@ -41,8 +41,6 @@ import org.wltea.analyzer.lucene.IKAnalyzer;
 
 import zx.blog.article.dao.ArticleDao;
 import zx.blog.article.domain.Article;
-import zx.blog.article.dto.ArticleDto;
-import zx.blog.util.ConvertToDto;
 
 @Component
 public class SearchLogic implements ServletContextAware{
@@ -56,7 +54,7 @@ public class SearchLogic implements ServletContextAware{
 		long startTime = System.currentTimeMillis();
 		Directory directory = null;
 		IndexWriter indexWriter = null;
-		List<ArticleDto> articles = ConvertToDto.convertToArticleDtoListIfVisible(articleDao.findAll());
+		List<Article> articles = articleDao.findAll();
 		try{
 			IndexWriterConfig indexWriterConfig = new IndexWriterConfig(Version.LUCENE_4_10_0, analyzer);
 			File indexDir = new File(this.path);
@@ -66,15 +64,15 @@ public class SearchLogic implements ServletContextAware{
 			indexWriter = new IndexWriter(directory, indexWriterConfig);
 			//删除之前的所有索引
 			indexWriter.deleteAll();
-			for(ArticleDto article : articles){
+			for(Article article : articles){
 				Document document = new Document();
 				document.add(new IntField("id", article.getArticleId(), Store.YES));
 				document.add(new TextField("title", article.getTitle(), Store.YES));
 				String content = article.getContent();
 				content = content.replaceAll("<pre class=\"brush:\\w*; \\w* \" data-pbcklang=\"brush:\\w*; \\w*\" data-pbcktabsize=\"\\d\">", "<pre>");
 				document.add(new TextField("content", content, Store.YES));
-				document.add(new TextField("authorName", article.getCategoryName(), Store.YES));
-				document.add(new TextField("categoryName", article.getCategoryName(), Store.YES));
+				//document.add(new TextField("authorName", article.getCategoryName(), Store.YES));
+				//document.add(new TextField("categoryName", article.getCategoryName(), Store.YES));
 				indexWriter.addDocument(document); 
 			}
 		} catch(Exception e){
@@ -135,10 +133,10 @@ public class SearchLogic implements ServletContextAware{
 	
 
 	@SuppressWarnings("deprecation")
-	public List<ArticleDto> search(String keyWord){
+	public List<Article> search(String keyWord){
 		long startTime = System.currentTimeMillis();
 		System.out.println("********查询搜索结果开始*******");
-		List<ArticleDto> adticleDtoList = new ArrayList<ArticleDto>();
+		List<Article> adticleDtoList = new ArrayList<Article>();
 		IndexReader indexReader = null;
 		IndexSearcher indexSearcher = null;
 		try{
@@ -163,7 +161,7 @@ public class SearchLogic implements ServletContextAware{
 			for(ScoreDoc scoreDoc : scoreDocs){
 				int docId = scoreDoc.doc;
 				Document document = indexSearcher.doc(docId);
-				ArticleDto dto = new ArticleDto();
+				Article dto = new Article();
 				int id = Integer.valueOf(document.get("id"));
 				String title = document.get("title");
 				String content = document.get("content");
@@ -198,7 +196,7 @@ public class SearchLogic implements ServletContextAware{
 				//高亮操作后，如果没有要显示的高亮内容，则会返回一个null
 				dto.setTitle(title != null ? title : document.get("title"));
 				dto.setContent(content != null ? content : document.get("content"));
-				dto.setCategoryName(categoryName != null ? categoryName : document.get("categoryName"));
+				//dto.setCategoryName(categoryName != null ? categoryName : document.get("categoryName"));
 				adticleDtoList.add(dto);
 			}
 		}catch(Exception e){
@@ -253,7 +251,7 @@ public class SearchLogic implements ServletContextAware{
 	 * 添加索引
 	 * @param article
 	 */
-	public void addIndex(ArticleDto article){
+	public void addIndex(Article article){
 		IndexWriter writer = null;
 		Directory directory = null;
 		
@@ -267,8 +265,8 @@ public class SearchLogic implements ServletContextAware{
 			String content = article.getContent();
 			content = content.replaceAll("<pre class=\"brush:\\w*; \\w* \" data-pbcklang=\"brush:\\w*; \\w*\" data-pbcktabsize=\"\\d\">", "<pre>");
 			doc.add(new TextField("content", content, Store.YES));
-			doc.add(new TextField("authorName", article.getCategoryName(), Store.YES));
-			doc.add(new TextField("categoryName", article.getCategoryName(), Store.YES));
+			//doc.add(new TextField("authorName", article.getCategoryName(), Store.YES));
+			//doc.add(new TextField("categoryName", article.getCategoryName(), Store.YES));
 			writer.addDocument(doc);
 		} catch (IOException e) {
 			e.printStackTrace();

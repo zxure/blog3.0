@@ -5,7 +5,8 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +18,7 @@ import zx.blog.ueditor.ActionEnter;
 public class UeditorController {
 	private HttpServletRequest request;
 	private HttpServletResponse response;
-	private static final Logger logger = Logger.getLogger(UeditorController.class);
+	private static final Logger logger = LoggerFactory.getLogger(UeditorController.class);
 	@ModelAttribute
 	public void setReqAndRes(HttpServletRequest request, HttpServletResponse response){
 		this.request = request;

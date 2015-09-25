@@ -24,6 +24,8 @@ public class Article {
 	private int weekViewTimes = 0;   //本周浏览次数
 	private int monthViewTimes = 0;   //本月浏览次数
 	
+	private String briefContent;
+	
 	public int getArticleId() {
 		return articleId;
 	}
@@ -99,5 +101,13 @@ public class Article {
 	}
 	public void setMonthViewTimes(int monthViewTimes) {
 		this.monthViewTimes = monthViewTimes;
+	}
+	public String getBriefContent()
+	{
+		return briefContent;
+	}
+	public void setBriefContent(String briefContent)
+	{
+		this.briefContent = briefContent;
 	}
 }

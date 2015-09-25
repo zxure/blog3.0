@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import zx.blog.article.dto.ArticleDto;
+import zx.blog.article.domain.Article;
 import zx.blog.search.SearchService;
 
 @Controller
@@ -19,7 +19,7 @@ public class SearchController {
 	public ModelAndView search(String keyWord) throws Exception{
 		ModelAndView mdv = new ModelAndView();
 		mdv.setViewName("search/result");
-		List<ArticleDto> result = this.searchService.doSearch(keyWord);
+		List<Article> result = this.searchService.doSearch(keyWord);
 		System.out.println(result.size());
 		mdv.addObject("result", result);
 		return mdv;

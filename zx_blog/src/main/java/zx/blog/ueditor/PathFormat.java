@@ -6,7 +6,8 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PathFormat {
 	
@@ -22,7 +23,7 @@ public class PathFormat {
 	
 	private static Date currentDate = null;
 	
-	private static final Logger logger = Logger.getLogger(PathFormat.class);
+	private static final Logger logger = LoggerFactory.getLogger(PathFormat.class);
 	
 	public static String parse ( String input ) {
 		
