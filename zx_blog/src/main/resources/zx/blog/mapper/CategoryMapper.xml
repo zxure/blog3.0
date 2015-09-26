@@ -1,25 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="zx.blog.category.dao.CategoryDao">
-	<select id="findAll" resultType="Category">
-		select categoryId as categoryId,
-		categoryName as categoryName,
-		totalArticleNum as totalArticleNum,
-		createTime as createTime 
+	
+	<resultMap type="zx.blog.category.domain.Category" id="category">
+		<id column="categoryId" property="categoryId" />
+	</resultMap>
+	
+	<sql id="base_column_list">
+		categoryId, categoryName, totalArticleNum, createTime
+	</sql>
+
+	<select id="findAll" resultMap="category">
+		select
+		<include refid="base_column_list" />
 		from category;
 	</select>
 	
-	<update id="update" parameterType="Category">
-		update category set categoryName = #{categoryName} , totalArticleNum = #{totalArticleNum} 
+	<update id="update" parameterType="zx.blog.category.domain.Category">
+		update category set 
+		categoryName = #{categoryName} , 
+		totalArticleNum = #{totalArticleNum} 
 		where categoryId = #{categoryId} 
 	</update>
 	
-	<delete id="delete">
+	<delete id="delete" >
 		delete from category where categoryId = #{categoryId}
 	</delete>
 	
-	<insert id="insert" parameterType="Category">
-		insert into category(categoryName, totalArticleNum, createTime) values(#{categoryName}, #{totalArticleNum}, #{createTime})
+	<insert id="insert" parameterType="zx.blog.category.domain.Category">
+		insert into category(categoryName, totalArticleNum, createTime) 
+		values(#{categoryName}, #{totalArticleNum}, #{createTime, typeHandler="zx.blog.myibtais.typehandler.TimeDateTypeHandler"})
 		<selectKey resultType="int" keyProperty="categoryId" order="AFTER">
 			SELECT LAST_INSERT_ID()
 		</selectKey>

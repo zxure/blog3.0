@@ -1,4 +1,7 @@
 package zx.blog.category.domain;
+
+import java.util.Date;
+
 /**
  * 文章类别
  * @author zxuan
@@ -8,7 +11,7 @@ public class Category {
 	private int categoryId;  //类别ID
 	private String categoryName;   //类别名称
 	private int totalArticleNum; //改类别下的总文章数目
-	private int createTime;   //创建时间
+	private Date createTime;   //创建时间
 	
 	public int getCategoryId() {
 		return categoryId;
@@ -22,10 +25,10 @@ public class Category {
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
-	public int getCreateTime() {
+	public Date getCreateTime() {
 		return createTime;
 	}
-	public void setCreateTime(int createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
 	public int getTotalArticleNum() {
