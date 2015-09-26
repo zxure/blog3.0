@@ -1,5 +1,6 @@
 package zx.blog.user.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,12 +58,12 @@ public class UserController {
 		}
 		User user = this.userService.validLogin(userName, password);
 		if(user != null){
-			String nowTimeStr = TimeDateUtil.getCurrentTimestr();
+			Date nowTime = TimeDateUtil.getNowTime();
 			//插入登录日志
-			LoginLog loginLog = LoginLog.valueOf(user.getUserId(), nowTimeStr, this.getRemoteIp());
+			LoginLog loginLog = LoginLog.valueOf(user.getUserId(), nowTime, this.getRemoteIp());
 			//TODO 异步操作  
 			this.logService.addLoginLog(loginLog);
-			user.setLastLoginTime(nowTimeStr);
+			user.setLastLoginTime(nowTime);
 			this.userService.updateUserLoginTime(user);
 			HttpSession session = this.getRequest().getSession(true) ;
 			session.setAttribute(UserConstant.LOGIN_KEY, user);

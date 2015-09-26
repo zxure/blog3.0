@@ -13,16 +13,16 @@ import zx.blog.user.service.UserService;
 @Component
 public class UserServiceImpl implements UserService{
 	@Autowired
-	private UserMapper userDao;
+	private UserMapper userMapper;
 	
 	@Override
 	public List<User> findAllUser() {
-		return this.userDao.findAll();
+		return this.userMapper.findAll();
 	}
 
 	@Override
 	public User findByUserName(String userName) {
-		return this.userDao.findByName(userName);
+		return this.userMapper.findByName(userName);
 	}
 
 	@Override
@@ -35,6 +35,6 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public void updateUserLoginTime(User user) {
-		this.userDao.updateUser(user);
+		this.userMapper.updateUser(user);
 	}
 }

@@ -9,6 +9,16 @@ public class TimeDateUtil {
 	
 	public static final DateFormat TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd hh:mm");
 	
+
+	/**
+	 * 获取当前时间
+	 * @return
+	 */
+	public static Date getNowTime()
+	{
+		return new Date();
+	}
+	
 	/**
 	 * 取得当前时间的时间戳
 	 * @return

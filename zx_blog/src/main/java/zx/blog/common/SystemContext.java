@@ -28,6 +28,9 @@ public class SystemContext {
 	/** 实验室script上传文件目录, 相对于web根目录 */
 	public static String libraryScriptDir;
 	
+	/**
+	 * 载入配置文件
+	 */
 	public static void load() {
 		InputStream ins = SystemContext.class.getClassLoader().getResourceAsStream("props/system.properties");
 		try {
@@ -43,16 +46,23 @@ public class SystemContext {
 			libraryStyleDir =  prop.getProperty("libraryStyleDir", "libraryStyle/");
 			libraryScriptDir = prop.getProperty("libraryScriptDir", "libraryScript/");
 			
-			prop.clear();
-			prop = null;
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+			prop.clear();
+			prop = null;
+			try {
+				ins.close();
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
 	/**重新加载*/
 	public boolean reload(){
-		this.reload();
+		load();
 		return true;
 	}
 	
