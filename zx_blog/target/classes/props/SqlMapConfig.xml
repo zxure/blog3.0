@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!-- 全局配置参数 -->
+	<settings>
+		<!-- 延迟加载总开关 -->
+		<setting name="lazyLoadingEnabled" value="false" />	
+		<!-- 设置按需加载 -->
+		<setting name="aggressiveLazyLoading" value="true" />
+		<!-- 开启二级缓存--> 
+		<setting name="cacheEnabled" value="true"/>
+	</settings>
+	
+	<typeAliases>
+		<typeAlias alias="User" type="zx.blog.user.domain.User" /> 
+		<typeAlias alias="Category" type="zx.blog.category.domain.Category" /> 
+		<typeAlias alias="Article" type="zx.blog.article.domain.Article" />
+		<typeAlias alias="Library" type="zx.blog.library.domain.Library"/>
+		<typeAlias alias="LoginLog" type="zx.blog.log.domain.LoginLog"/>
+	</typeAliases>
+	
+</configuration>

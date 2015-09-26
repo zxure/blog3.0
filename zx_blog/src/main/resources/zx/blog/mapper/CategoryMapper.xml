@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="zx.blog.category.dao.CategoryDao">
+
+<mapper namespace="zx.blog.mapper.CategoryMapper">
 	
 	<resultMap type="zx.blog.category.domain.Category" id="category">
 		<id column="categoryId" property="categoryId" />
@@ -29,7 +30,7 @@
 	
 	<insert id="insert" parameterType="zx.blog.category.domain.Category">
 		insert into category(categoryName, totalArticleNum, createTime) 
-		values(#{categoryName}, #{totalArticleNum}, #{createTime, typeHandler="zx.blog.myibtais.typehandler.TimeDateTypeHandler"})
+		values(#{categoryName}, #{totalArticleNum}, #{createTime, typeHandler=zx.blog.myibtais.typehandler.TimeDateTypeHandler})
 		<selectKey resultType="int" keyProperty="categoryId" order="AFTER">
 			SELECT LAST_INSERT_ID()
 		</selectKey>
