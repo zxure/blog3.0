@@ -2,7 +2,6 @@ package zx.blog.user.controller;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,11 +16,10 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import zx.blog.article.domain.Article;
-import zx.blog.article.dto.SimpleArticleDto;
 import zx.blog.article.service.ArticleService;
 import zx.blog.log.domain.LoginLog;
 import zx.blog.log.service.LogService;
+import zx.blog.result.ResultCode;
 import zx.blog.user.common.UserConstant;
 import zx.blog.user.domain.User;
 import zx.blog.user.service.UserService;
@@ -46,32 +44,40 @@ public class UserController {
 	@ResponseBody
 	public Map<String, String> login(String userName, String password){
 		Map<String, String> map = new HashMap<String, String>();
+		
 		if(StringUtils.isBlank(userName)){
-			map.put("msgCode", "-1");
-			map.put("errMsg", "用户名不可以为空！");
+			map.put("msgCode", ResultCode.LOGIN_EMPTY_USERNAME.getCode());
+			map.put("errMsg", ResultCode.LOGIN_EMPTY_USERNAME.getContent());
 			return map;
 		}
+		
 		if(StringUtils.isBlank(password)){
-			map.put("msgCode", "-1");
-			map.put("errMsg", "密码不可以为空！");
+			map.put("msgCode", ResultCode.LOGIN_EMPTY_PASSWORD.getCode());
+			map.put("errMsg", ResultCode.LOGIN_EMPTY_PASSWORD.getContent());
 			return map;
 		}
+		
 		User user = this.userService.validLogin(userName, password);
 		if(user != null){
 			Date nowTime = TimeDateUtil.getNowTime();
 			//插入登录日志
 			LoginLog loginLog = LoginLog.valueOf(user.getUserId(), nowTime, this.getRemoteIp());
-			//TODO 异步操作  
+			
 			this.logService.addLoginLog(loginLog);
+			
+			//更新用户登录时间
 			user.setLastLoginTime(nowTime);
 			this.userService.updateUserLoginTime(user);
+			
+			//设置用户登录状态到 session
 			HttpSession session = this.getRequest().getSession(true) ;
 			session.setAttribute(UserConstant.LOGIN_KEY, user);
 			session.setMaxInactiveInterval(UserConstant.SESSION_INVALID_TIME);
-			map.put("msgCode", "1");
+			
+			map.put("msgCode", ResultCode.SUCCESS.getCode());
 		} else {
-			map.put("msgCode", "-1");
-			map.put("errMsg", "用户名密码不匹配！");
+			map.put("msgCode", ResultCode.LOGIN_FAIL.getCode());
+			map.put("errMsg", ResultCode.LOGIN_FAIL.getContent());
 		}
 		return map;
 	}
@@ -86,6 +92,7 @@ public class UserController {
 		ModelAndView mdv = new ModelAndView();
 		mdv.setViewName(UserConstant.LOGIN_VIEW_NAME);
 		HttpSession session = this.getRequest().getSession(true) ;
+		
 		if(session.getAttribute(UserConstant.LOGIN_KEY) != null){
 			session.removeAttribute(UserConstant.LOGIN_KEY);
 			mdv.addObject(UserConstant.LOGOUT_RESULT, true);
@@ -104,12 +111,12 @@ public class UserController {
 	}
 	
 	/*
-	 * 跳转到登录页面
+	 * 跳转到首页
 	 */
 	@RequestMapping(value={"","/", "/index"})
 	public ModelAndView mainPage(){
 		ModelAndView mdv = new ModelAndView();
-		//设置所有的文章基本信息（名称，作者，时间，类别，标签）
+/*		//设置所有的文章基本信息（名称，作者，时间，类别，标签）
 		List<SimpleArticleDto> articles = articleService.getAllSimpleArticleDto();
 		//设置最近一篇文章的详细信息
 		if(articles != null && articles.size() > 0){
@@ -117,7 +124,7 @@ public class UserController {
 			mdv.addObject("articles", articles);
 			mdv.addObject("firstArticle", firstArticle);
 		}
-		mdv.setViewName(UserConstant.BACKSTAGE_MAIN_VIEW_NAME);
+		mdv.setViewName(UserConstant.BACKSTAGE_MAIN_VIEW_NAME);*/
 		return mdv;
 	}
 	

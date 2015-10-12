@@ -28,8 +28,10 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public User validLogin(String userName, String password) {
 		User user = CacheHolder.getUserByName(userName);
+		
 		if(user != null && password.equals(user.getUserPassword()))
 			return user;
+		
 		return null;
 	}
 
