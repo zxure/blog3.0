@@ -23,7 +23,7 @@ public class MainControll {
 		ModelAndView mdv = new ModelAndView();
 		mdv.setViewName("front/index");
 		//首页文章信息
-		List<Article> articles = articleService.getArticlesByPage(1);
+		List<Article> articles = this.articleService.getArticlesByPage(1);
 		mdv.addObject("articles", articles);
 
 		//首页类别信息

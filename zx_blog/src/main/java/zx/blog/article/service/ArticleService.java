@@ -3,7 +3,6 @@ package zx.blog.article.service;
 import java.util.List;
 
 import zx.blog.article.domain.Article;
-import zx.blog.article.dto.SimpleArticleDto;
 
 public interface ArticleService {
 	
@@ -73,7 +72,7 @@ public interface ArticleService {
 	 * 拿到所有文章基本信息
 	 * @return
 	 */
-	public List<SimpleArticleDto> getAllSimpleArticleDto();
+	public List<Article> getAllSimpleArticleDto();
 
 	/************************* 后台使用 end************************************/
 
