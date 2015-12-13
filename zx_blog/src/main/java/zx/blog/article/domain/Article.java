@@ -1,6 +1,5 @@
 package zx.blog.article.domain;
 
-
 /**
  * 文章
  * @author zxuan
@@ -20,9 +19,6 @@ public class Article {
 	private String content;  //文章主体内容
 	private int isVisible = Article.VISIBAL_STATE;   //文章是否可见（0：可见     1：不可见）
 	private int totalViewTimes = 0;   //总浏览次数
-	private int dayViewTimes = 0;   //当日浏览次数
-	private int weekViewTimes = 0;   //本周浏览次数
-	private int monthViewTimes = 0;   //本月浏览次数
 	
 	private String briefContent;
 	
@@ -83,24 +79,6 @@ public class Article {
 	}
 	public void setTotalViewTimes(int totalViewTimes) {
 		this.totalViewTimes = totalViewTimes;
-	}
-	public int getDayViewTimes() {
-		return dayViewTimes;
-	}
-	public void setDayViewTimes(int dayViewTimes) {
-		this.dayViewTimes = dayViewTimes;
-	}
-	public int getWeekViewTimes() {
-		return weekViewTimes;
-	}
-	public void setWeekViewTimes(int weekViewTimes) {
-		this.weekViewTimes = weekViewTimes;
-	}
-	public int getMonthViewTimes() {
-		return monthViewTimes;
-	}
-	public void setMonthViewTimes(int monthViewTimes) {
-		this.monthViewTimes = monthViewTimes;
 	}
 	public String getBriefContent()
 	{

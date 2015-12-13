@@ -18,7 +18,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import zx.blog.article.domain.Article;
-import zx.blog.article.dto.SimpleArticleDto;
+import zx.blog.article.dto.ArticleDto;
 import zx.blog.article.service.ArticleService;
 import zx.blog.cache.container.CacheHolder;
 import zx.blog.category.domain.Category;
@@ -31,18 +31,24 @@ import zx.blog.util.TimeDateUtil;
 
 @Controller
 public class ArticleController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(ArticleController.class);
+
 	@Autowired
 	private ArticleService articleService;
 	@Autowired
 	private CategoryService categoryService;
 	
-	private static final Logger logger = LoggerFactory.getLogger(ArticleController.class);
-	
+	/**
+	 * 根据文章ID访问文章
+	 * @param articleId
+	 * @return
+	 */
 	@RequestMapping("/article/{articleId}")
 	public ModelAndView viewArticleById(@PathVariable("articleId")int articleId){
 		ModelAndView mdv = new ModelAndView();
 		mdv.setViewName("front/article/detail");
-		Article article = this.articleService.viewArticleById(articleId);
+		ArticleDto article = this.articleService.viewArticleById(articleId);
 		mdv.addObject("article", article);
 		//类别信息
 		List<Category> categoryList = CacheHolder.getCategoryList();
@@ -60,7 +66,7 @@ public class ArticleController {
 		ModelAndView mdv = new ModelAndView();
 		mdv.setViewName("front/index");
 		//首页文章信息
-		List<Article> articles = articleService.getArticlesByPage(pageNum);
+		List<ArticleDto> articles = articleService.getArticlesByPage(pageNum);
 		mdv.addObject("articles", articles);
 
 		//首页类别信息
@@ -106,7 +112,7 @@ public class ArticleController {
 	public ModelAndView viewArticleByIdForAdmin(@PathVariable("articleId")int articleId){
 		ModelAndView mdv =new ModelAndView();
 		//设置所有的文章基本信息（名称，作者，时间，类别，标签）
-		List<SimpleArticleDto> articles = articleService.getAllSimpleArticleDto();
+		List<Article> articles = articleService.getAllSimpleArticleDto();
 		//设置最近一篇文章的详细信息
 		if(articles != null && articles.size() > 0){
 			Article firstArticle = articleService.getArticleDtoById(articleId);

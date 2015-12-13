@@ -3,6 +3,7 @@ package zx.blog.article.service;
 import java.util.List;
 
 import zx.blog.article.domain.Article;
+import zx.blog.article.dto.ArticleDto;
 
 public interface ArticleService {
 	
@@ -33,7 +34,7 @@ public interface ArticleService {
 	 * @param pageNum
 	 * @return
 	 */
-	public List<Article> getArticlesByPage(int pageNum);
+	public List<ArticleDto> getArticlesByPage(int pageNum);
 	
 	/**
 	 * 拿到文章总数
@@ -46,7 +47,7 @@ public interface ArticleService {
 	 * @param articleId
 	 * @return
 	 */
-	public Article viewArticleById(int articleId);
+	public ArticleDto viewArticleById(int articleId);
 	
 	
 	
