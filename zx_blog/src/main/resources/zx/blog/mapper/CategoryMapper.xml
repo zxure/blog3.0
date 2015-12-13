@@ -22,8 +22,8 @@
 	
 	<update id="update" parameterType="zx.blog.category.domain.Category">
 		update category set 
-		categoryName = #{categoryName} , 
-		totalArticleNum = #{totalArticleNum} 
+		categoryName = #{categoryName}, 
+		totalArticleNum = #{totalArticleNum},
 		createTime = #{createTime, typeHandler=zx.blog.myibtais.typehandler.TimeDateTypeHandler}
 		where categoryId = #{categoryId} 
 	</update>

@@ -151,6 +151,10 @@ public class ArticleServiceImpl implements ArticleService{
 	
 	@Override
 	public void deleteArticle(int articleId){
+		Article article = this.articleDao.findById(articleId);
+		Category category = CacheHolder.getCagetoryById(article.getCategoryId());
 		this.articleDao.deleteArticleByArticleId(articleId);
+		category.setTotalArticleNum(category.getTotalArticleNum() - 1);
+		this.categoryDao.update(category);
 	}
 }

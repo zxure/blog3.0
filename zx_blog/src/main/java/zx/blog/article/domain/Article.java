@@ -1,5 +1,7 @@
 package zx.blog.article.domain;
 
+import zx.blog.util.TimeDateUtil;
+
 /**
  * 文章
  * @author zxuan
@@ -19,6 +21,23 @@ public class Article {
 	private String content;  //文章主体内容
 	private int isVisible = Article.VISIBAL_STATE;   //文章是否可见（0：可见     1：不可见）
 	private int totalViewTimes = 0;   //总浏览次数
+	
+	/**
+	 * 实例化方法
+	 * @return
+	 */
+	public static Article valueOf(String title, String content, int userId, int categoryId){
+		Article article = new Article();
+		
+		article.setTitle(title);
+		article.setContent(content);
+		article.setUserId(userId);
+		article.setPostTime(TimeDateUtil.getCurrentTimestr());
+		article.setLastUpdateTime(TimeDateUtil.getCurrentTimestr());
+		article.setCategoryId(categoryId);
+		
+		return article;
+	}
 	
 	private String briefContent;
 	

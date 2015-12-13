@@ -147,11 +147,10 @@ public class ArticleController {
 		logger.info("receive title" + title);
 		logger.info("receive content" + content);
 		Map<String, String> map = new HashMap<String, String>();
-		Article article = new Article();
-		article.setCategoryId(categoryId);
-		article.setTitle(title);
-		article.setContent(content);
-		article.setUserId(((User)(this.getRequest().getSession().getAttribute(UserConstant.LOGIN_KEY))).getUserId());
+		
+		int userId = ((User)(this.getRequest().getSession().getAttribute(UserConstant.LOGIN_KEY))).getUserId();
+		
+		Article article = Article.valueOf(title, content, userId, categoryId);
 		articleService.addArticle(article);
 		map.put("articleId", article.getArticleId() + "");
 		map.put("msgCode", "1");
