@@ -27,7 +27,7 @@ public interface ArticleService {
 	 * @param categoryId
 	 * @return
 	 */
-	public List<Article> getArticleByCategory(int categoryId);
+	public List<ArticleDto> getArticleByCategory(int categoryId);
 
 	/**
 	 * 根据分页拿到文章

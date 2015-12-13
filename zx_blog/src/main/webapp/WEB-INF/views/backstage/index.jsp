@@ -21,7 +21,7 @@
 											<span class="zx-page-article-list-item-avatar-name">${article.authorName }</span>
 										</div>
 										<span class="zx-page-article-list-item-category">${article.categoryName }</span>
-										<span class="zx-page-article-list-item-posttime">发布于  ${article.postTimeStr } 之前</span>
+										<span class="zx-page-article-list-item-posttime">发布于  ${article.postTimeStr }</span>
 									</section>
 								</a>
 							</li>

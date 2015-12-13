@@ -19,7 +19,7 @@
 							</h1>
 							<div class="zx-article-meta">
 								<span><a href="about"><i class="fa fa-user"></i> ${article.authorName}</a></span>
-								<span><i class="fa fa-clock-o"></i> 发布于  ${article.postTimeStr } 之前 </span>
+								<span><i class="fa fa-clock-o"></i> 发布于  ${article.postTimeStr } </span>
 								<span><i class="fa fa-eye"></i> 浏览(${article.totalViewTimes}) </span>
 							</div>
 						</header>

@@ -1,6 +1,5 @@
 package zx.blog.log.domain;
 
-import java.util.Date;
 
 /*
  * 玩家登录日志类
@@ -8,7 +7,7 @@ import java.util.Date;
 public class LoginLog {
 	private int logId;
 	private int userId;
-	private Date lastLoginTime;
+	private String lastLoginTime;
 	private String lastLoginIp;
 	
 	/**
@@ -18,7 +17,7 @@ public class LoginLog {
 	 * @param lastLoginIp
 	 * @return
 	 */
-	public static LoginLog valueOf(int userId, Date lastLoginTime, String lastLoginIp)
+	public static LoginLog valueOf(int userId, String lastLoginTime, String lastLoginIp)
 	{
 		LoginLog result = new LoginLog();
 		
@@ -41,10 +40,10 @@ public class LoginLog {
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-	public Date getLastLoginTime() {
+	public String getLastLoginTime() {
 		return lastLoginTime;
 	}
-	public void setLastLoginTime(Date lastLoginTime) {
+	public void setLastLoginTime(String lastLoginTime) {
 		this.lastLoginTime = lastLoginTime;
 	}
 	public String getLastLoginIp() {

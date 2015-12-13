@@ -5,6 +5,7 @@
 	<resultMap type="zx.blog.user.domain.User" id="user">
 		<id column="userId" property="userId"/>
 		<result column="title" property="title"/>
+		<result column="userName" property="userName"/>
 		<result column="userPassword" property="userPassword"/>
 		<result column="lastLoginTime" property="lastLoginTime" typeHandler="zx.blog.myibtais.typehandler.TimeDateTypeHandler" />
 		<result column="userState" property="userState"/>
@@ -13,7 +14,7 @@
 	</resultMap>
 
 	<sql id="base_column_list">
-		userId, title, userPassword, lastLoginTime, userState, privilege, imgUrl 
+		userId, userName, title, userPassword, lastLoginTime, userState, privilege, imgUrl 
 	</sql>
 
 	<!-- 查询全部 用户 -->

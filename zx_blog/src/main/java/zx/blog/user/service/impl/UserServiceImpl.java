@@ -12,6 +12,7 @@ import zx.blog.user.service.UserService;
 
 @Component
 public class UserServiceImpl implements UserService{
+	
 	@Autowired
 	private UserMapper userMapper;
 	

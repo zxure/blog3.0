@@ -44,7 +44,7 @@ public class CategoryController {
 		}
 		Category category = new Category();
 		category.setCategoryName(categoryName);
-		category.setCreateTime(TimeDateUtil.getNowTime());
+		category.setCreateTime(TimeDateUtil.getCurrentTimestr());
 		categoryService.addCategory(category);
 		CacheHolder.addCategory(category);
 		result.put("categoryId", category.getCategoryId());

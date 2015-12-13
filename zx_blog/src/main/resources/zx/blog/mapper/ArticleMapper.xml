@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="zx.blog.mapper.ArticleMapper">
 
-<resultMap type="zx.blog.article.domain.Article" id="article">
+<resultMap id="article" type="zx.blog.article.domain.Article">
 	<id column="articleId" property="articleId" />
 	<result column="title" property="title"/>
 	<result column="userId" property="userId"/>
@@ -12,40 +12,36 @@
 	<result column="content" property="content" />
 	<result column="isVisible" property="isVisible" />
 	<result column="totalViewTimes" property="totalViewTimes" />
-	<result column="dayViewTimes" property="dayViewTimes" />
-	<result column="weekViewTimes" property="weekViewTimes" />
-	<result column="monthViewTimes" property="monthViewTimes" />
 </resultMap>
 
 <sql id="base_column_list">
-	id,title, userId, postTime, lastUpdateTime, categoryId, content, isVisible, totalViewTimes, dayViewTimes, weekViewTimes, monthViewTimes
+	articleId,title, userId, postTime, lastUpdateTime, categoryId, content, isVisible, totalViewTimes 
 </sql>
 
 <!-- 插入 -->
-<insert id="insert" parameterType="Article">
-	insert into article(title, userId, postTime, lastUpdateTime, categoryId, content, isVisible, totalViewTimes, dayViewTimes, weekViewTimes, monthViewTimes) 
+<insert id="insert" parameterType="zx.blog.article.domain.Article">
+	insert into article(title, userId, postTime, lastUpdateTime, categoryId, content, isVisible, totalViewTimes) 
 	values(#{title},#{userId}, 
 	#{postTime, typeHandler=zx.blog.myibtais.typehandler.TimeDateTypeHandler}, 
 	#{lastUpdateTime, typeHandler=zx.blog.myibtais.typehandler.TimeDateTypeHandler}, 
-	#{categoryId}, #{content}, #{isVisible}, #{totalViewTimes}, #{dayViewTimes}, #{weekViewTimes}, #{monthViewTimes});
+	#{categoryId}, #{content}, #{isVisible}, #{totalViewTimes});
 	<selectKey resultType="int" keyProperty="articleId" order="AFTER">
 			SELECT LAST_INSERT_ID()
 	</selectKey>
 </insert>
 
-<update id="update" parameterType="Article">
+<update id="update" parameterType="zx.blog.article.domain.Article">
 	update article set 
 	title = #{title},
 	userId = #{userId},
 	postTime = #{postTime, typeHandler=zx.blog.myibtais.typehandler.TimeDateTypeHandler},
-	lastUpdateTime = #{lastUpdateTime, typeHandler=zx.blog.myibtais.typehandler.TimeDateTypeHandler},
+	<if test="lastUpdateTime != null">
+		lastUpdateTime = #{lastUpdateTime, typeHandler=zx.blog.myibtais.typehandler.TimeDateTypeHandler},
+	</if>
 	categoryId = #{categoryId},
 	content = #{content},
 	isVisible = #{isVisible},
-	totalViewTimes = #{totalViewTimes},
-	dayViewTimes = #{dayViewTimes},
-	weekViewTimes = #{weekViewTimes},
-	monthViewTimes = #{monthViewTimes}
+	totalViewTimes = #{totalViewTimes}
 	where articleId = #{articleId}
 </update>
 
@@ -57,12 +53,12 @@
 </select>
 
 <!-- 文章总数 -->
-<select id="getArticleTotalNum" resultType="int">
+<select id="getArticleTotalNum" resultType="java.lang.Integer">
 	SELECT COUNT(*) FROM article
 </select>
 
 <!-- 根据文章ID查询文章 -->
-<select id="findById" resultType="Article">
+<select id="findById" resultMap="article" parameterType="java.lang.Integer">
 	SELECT 
 	<include refid="base_column_list" /> 
 	FROM article WHERE 
@@ -75,7 +71,7 @@
 </delete>
 
 <!-- 查询一页的文章 -->
-<select id="findOnePageArticle" resultType="Article">
+<select id="findOnePageArticle" resultMap="article">
 	SELECT 
 	<include refid="base_column_list" /> 
 	FROM article ORDER BY postTime DESC, lastUpdateTime DESC 
@@ -83,7 +79,7 @@
 </select>
 
 <!-- 根据类别ID查询 -->
-<select id="findByCategoryId" resultType="Article">
+<select id="findByCategoryId" resultMap="article">
 	SELECT 
 	<include refid="base_column_list" /> 
 	FROM article where categoryId = #{categoryId} ORDER BY postTime DESC, lastUpdateTime DESC

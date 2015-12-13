@@ -108,16 +108,25 @@ public class ArticleServiceImpl implements ArticleService{
 	}
 
 	@Override
-	public List<Article> getArticleByCategory(int categoryId) {
+	public List<ArticleDto> getArticleByCategory(int categoryId) {
 		List<Article> articles = this.articleDao.findByCategoryId(categoryId);
+		List<ArticleDto> articleDtos = new ArrayList<ArticleDto>();
 		for(Article article : articles){
+			//作者
+			User author = CacheHolder.getUserById(article.getUserId());
+			//类别
+			Category category = CacheHolder.getCagetoryById(article.getCategoryId());
+			
+			ArticleDto articleDto = ArticleDto.valueOf(author, category, article);
 			try {
-				article.setBriefContent(ArticleBriefTools.getBrief(article.getContent(), ARTICLE_BRIEF_LENGTH));
+				articleDto.setContent(ArticleBriefTools.getBrief(article.getContent(), ARTICLE_BRIEF_LENGTH));
 			} catch (ParserException e) {
 				e.printStackTrace();
 			}
+			
+			articleDtos.add(articleDto);
 		}
-		return articles;
+		return articleDtos;
 	}
 	
 	@Override

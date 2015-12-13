@@ -60,13 +60,14 @@ public class UserController {
 		User user = this.userService.validLogin(userName, password);
 		if(user != null){
 			Date nowTime = TimeDateUtil.getNowTime();
+			String nowTimeStr = TimeDateUtil.formatTime(nowTime);
 			//插入登录日志
-			LoginLog loginLog = LoginLog.valueOf(user.getUserId(), nowTime, this.getRemoteIp());
+			LoginLog loginLog = LoginLog.valueOf(user.getUserId(), nowTimeStr, this.getRemoteIp());
 			
 			this.logService.addLoginLog(loginLog);
 			
 			//更新用户登录时间
-			user.setLastLoginTime(nowTime);
+			user.setLastLoginTime(nowTimeStr);
 			this.userService.updateUserLoginTime(user);
 			
 			//设置用户登录状态到 session

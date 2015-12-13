@@ -1,13 +1,12 @@
 package zx.blog.user.domain;
 
-import java.util.Date;
 
 public class User {
 	private int userId; //用户ID
 	private String userName;  //用户名
 	private String title;	//称呼（用于显示在界面上）
 	private String userPassword;  //用户密码
-	private Date lastLoginTime;   //上次登录时间(时间戳，秒)
+	private String lastLoginTime;   //上次登录时间(时间戳，秒)
 	private int userState;		//用户状态
 	private int privilege;		//权限级别
 	private String imgUrl;		//头像地址
@@ -29,11 +28,11 @@ public class User {
 	public void setUserPassword(String userPassword) {
 		this.userPassword = userPassword;
 	}
-	public Date getLastLoginTime()
+	public String getLastLoginTime()
 	{
 		return lastLoginTime;
 	}
-	public void setLastLoginTime(Date lastLoginTime)
+	public void setLastLoginTime(String lastLoginTime)
 	{
 		this.lastLoginTime = lastLoginTime;
 	}

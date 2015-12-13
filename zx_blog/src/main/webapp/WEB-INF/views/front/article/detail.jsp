@@ -13,7 +13,7 @@
 							</span>
 						</h1>
  						<div class="zx-article-detail-meta">
-							<span> ${article.authorName} 发布于  ${article.postTimeStr } 之前</span>
+							<span> ${article.authorName} 发布于  ${article.postTimeStr } </span>
 						</div>
 					</header>
 					<div class="zx-article-detail-content">

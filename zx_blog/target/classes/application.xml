@@ -13,6 +13,7 @@
                         http://www.springframework.org/schema/context/spring-context-2.5.xsd">
    
 	 <context:property-placeholder  location="classpath:props/db.properties"/>
+	 
      <!-- 数据源配置 dbcp -->  
      <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="${driverClassName}" />
@@ -33,7 +34,7 @@
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<!--basePackage指定要扫描的包，在此包之下的映射器都会被
 		搜索到。可指定多个包，包与包之间用逗号或分号分隔-->
-		<property name="basePackage" value="zx.blog.mapper.*"/>
+		<property name="basePackage" value="zx.blog.mapper"/>
 	</bean>
 
 	<context:component-scan base-package="zx.blog.common" />

@@ -5,6 +5,9 @@
 	
 	<resultMap type="zx.blog.category.domain.Category" id="category">
 		<id column="categoryId" property="categoryId" />
+		<result column="categoryName" property="categoryName" />
+		<result column="totalArticleNum" property="totalArticleNum" />
+		<result column="createTime" property="createTime" typeHandler="zx.blog.myibtais.typehandler.TimeDateTypeHandler" />
 	</resultMap>
 	
 	<sql id="base_column_list">
@@ -21,6 +24,7 @@
 		update category set 
 		categoryName = #{categoryName} , 
 		totalArticleNum = #{totalArticleNum} 
+		createTime = #{createTime, typeHandler=zx.blog.myibtais.typehandler.TimeDateTypeHandler}
 		where categoryId = #{categoryId} 
 	</update>
 	

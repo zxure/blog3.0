@@ -4,37 +4,36 @@ import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 
 import zx.blog.util.TimeDateUtil;
 
-public class TimeDateTypeHandler implements TypeHandler<Date>
+public class TimeDateTypeHandler implements TypeHandler<String>
 {
 
 	@Override
-	public void setParameter(PreparedStatement ps, int i, Date date, JdbcType jdbcType)
+	public void setParameter(PreparedStatement ps, int i, String dateStr, JdbcType jdbcType)
 			throws SQLException
 	{
-		ps.setInt(i, TimeDateUtil.getTimestampFromDate(date));
+		ps.setInt(i, TimeDateUtil.getTimestampFromTimestr(dateStr));
 	}
 
 	@Override
-	public Date getResult(ResultSet rs, String columnName) throws SQLException
+	public String getResult(ResultSet rs, String columnName) throws SQLException
 	{
-		return null;
+		return TimeDateUtil.formatTime(rs.getInt(columnName));
 	}
 
 	@Override
-	public Date getResult(ResultSet rs, int columnIndex) throws SQLException
+	public String getResult(ResultSet rs, int columnIndex) throws SQLException
 	{
-		return TimeDateUtil.getDateFromTimestamp(rs.getInt(columnIndex));
+		return TimeDateUtil.formatTime(rs.getInt(columnIndex));
 	}
 
 	@Override
-	public Date getResult(CallableStatement cs, int columnIndex) throws SQLException
+	public String getResult(CallableStatement cs, int columnIndex) throws SQLException
 	{
 		return null;
 	}

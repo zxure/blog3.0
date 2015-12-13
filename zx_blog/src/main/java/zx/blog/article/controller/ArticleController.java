@@ -89,7 +89,7 @@ public class ArticleController {
 	public ModelAndView viewByCategory(@PathVariable("categoryId")int categoryId){
 		ModelAndView mdv =new ModelAndView();
 		mdv.setViewName("front/index");
-		List<Article> articles = articleService.getArticleByCategory(categoryId);
+		List<ArticleDto> articles = articleService.getArticleByCategory(categoryId);
 		
 		//首页类别信息
 		List<Category> categoryList = CacheHolder.getCategoryList();
