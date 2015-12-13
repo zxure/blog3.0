@@ -13,7 +13,7 @@ public interface ArticleService {
 	 * @param articleId
 	 * @return
 	 */
-	public Article getArticleDtoById(int articleId);
+	public ArticleDto getArticleDtoById(int articleId);
 	
 	/**
 	 * 根据文章ID查找文章 
@@ -73,7 +73,7 @@ public interface ArticleService {
 	 * 拿到所有文章基本信息
 	 * @return
 	 */
-	public List<Article> getAllSimpleArticleDto();
+	public List<ArticleDto> getAllArticleDto();
 
 	/************************* 后台使用 end************************************/
 

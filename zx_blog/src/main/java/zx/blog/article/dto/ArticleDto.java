@@ -4,10 +4,17 @@ import zx.blog.article.domain.Article;
 import zx.blog.category.domain.Category;
 import zx.blog.user.domain.User;
 
+/**
+ * 文章传值对象
+ * @author stonez
+ *
+ */
 public class ArticleDto
 {
 	//作者名称
 	private String authorName;
+	//作者头像
+	private String authorImgUrl;
 	//文章ID
 	private int articleId;
 	//标题
@@ -23,9 +30,17 @@ public class ArticleDto
 	//总浏览次数
 	private int totalViewTimes;
 	
+	/**
+	 * 实例化方法
+	 * @param user
+	 * @param category
+	 * @param article
+	 * @return
+	 */
 	public static ArticleDto valueOf(User user, Category category, Article article){
 		ArticleDto articleDto = new ArticleDto();
 		articleDto.setAuthorName(user.getUserName());
+		articleDto.setAuthorImgUrl(user.getImgUrl());
 		articleDto.setArticleId(article.getArticleId());
 		articleDto.setTitle(article.getTitle());
 		articleDto.setContent(article.getContent());
@@ -44,6 +59,16 @@ public class ArticleDto
 	{
 		this.authorName = authorName;
 	}
+	public String getAuthorImgUrl()
+	{
+		return authorImgUrl;
+	}
+
+	public void setAuthorImgUrl(String authorImgUrl)
+	{
+		this.authorImgUrl = authorImgUrl;
+	}
+
 	public int getArticleId()
 	{
 		return articleId;

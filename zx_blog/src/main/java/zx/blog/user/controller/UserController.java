@@ -2,6 +2,7 @@ package zx.blog.user.controller;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import zx.blog.article.dto.ArticleDto;
 import zx.blog.article.service.ArticleService;
 import zx.blog.log.domain.LoginLog;
 import zx.blog.log.service.LogService;
@@ -117,15 +119,15 @@ public class UserController {
 	@RequestMapping(value={"","/", "/index"})
 	public ModelAndView mainPage(){
 		ModelAndView mdv = new ModelAndView();
-/*		//设置所有的文章基本信息（名称，作者，时间，类别，标签）
-		List<SimpleArticleDto> articles = articleService.getAllSimpleArticleDto();
+		//设置所有的文章基本信息（名称，作者，时间，类别，标签）
+		List<ArticleDto> articles = articleService.getAllArticleDto();
 		//设置最近一篇文章的详细信息
 		if(articles != null && articles.size() > 0){
-			Article firstArticle = articleService.getArticleDtoById(articles.get(0).getArticleId());
+			ArticleDto firstArticle = articleService.getArticleDtoById(articles.get(0).getArticleId());
 			mdv.addObject("articles", articles);
 			mdv.addObject("firstArticle", firstArticle);
 		}
-		mdv.setViewName(UserConstant.BACKSTAGE_MAIN_VIEW_NAME);*/
+		mdv.setViewName(UserConstant.BACKSTAGE_MAIN_VIEW_NAME);
 		return mdv;
 	}
 	

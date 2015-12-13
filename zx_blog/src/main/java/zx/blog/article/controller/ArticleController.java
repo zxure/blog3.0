@@ -112,10 +112,10 @@ public class ArticleController {
 	public ModelAndView viewArticleByIdForAdmin(@PathVariable("articleId")int articleId){
 		ModelAndView mdv =new ModelAndView();
 		//设置所有的文章基本信息（名称，作者，时间，类别，标签）
-		List<Article> articles = articleService.getAllSimpleArticleDto();
+		List<ArticleDto> articles = articleService.getAllArticleDto();
 		//设置最近一篇文章的详细信息
 		if(articles != null && articles.size() > 0){
-			Article firstArticle = articleService.getArticleDtoById(articleId);
+			ArticleDto firstArticle = articleService.getArticleDtoById(articleId);
 			mdv.addObject("articles", articles);
 			mdv.addObject("firstArticle", firstArticle);
 		}
@@ -169,7 +169,7 @@ public class ArticleController {
 	public ModelAndView editArticle(@PathVariable("articleId")int articleId){
 		ModelAndView mdv =new ModelAndView();
 		mdv.addObject("categories", CacheHolder.getSimpleCategoryDtoList());
-		Article article = articleService.getArticleDtoById(articleId);
+		ArticleDto article = articleService.getArticleDtoById(articleId);
 		mdv.addObject("article", article);
 		mdv.addObject("optType", "updateArticle");
 		mdv.setViewName("backstage/editor");
