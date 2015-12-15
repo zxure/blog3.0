@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.handler.RequestMappingOperator;
 
 import zx.blog.article.dto.ArticleDto;
 import zx.blog.article.service.ArticleService;
@@ -17,6 +18,8 @@ import zx.blog.util.PageUtils;
 public class MainControll {
 	@Autowired
 	private ArticleService articleService;
+	@Autowired
+	private RequestMappingOperator requestMappingOperator;
 	
 	@RequestMapping(value={"/","/index", "index"})
 	public ModelAndView index(){
@@ -32,6 +35,8 @@ public class MainControll {
 
 		//分页信息,当前页3， 12345
 		mdv.addObject("pageInfo", PageUtils.getPageInfo(1));
+		
+		requestMappingOperator.test();
 		
 		return mdv;
 	}
