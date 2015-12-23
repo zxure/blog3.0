@@ -22,7 +22,6 @@ import zx.blog.article.dto.ArticleDto;
 import zx.blog.article.service.ArticleService;
 import zx.blog.cache.container.CacheHolder;
 import zx.blog.category.domain.Category;
-import zx.blog.category.service.CategoryService;
 import zx.blog.user.common.UserConstant;
 import zx.blog.user.domain.User;
 import zx.blog.util.PageUtils;
@@ -36,8 +35,6 @@ public class ArticleController {
 
 	@Autowired
 	private ArticleService articleService;
-	@Autowired
-	private CategoryService categoryService;
 	
 	/**
 	 * 根据文章ID访问文章

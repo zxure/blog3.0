@@ -21,7 +21,7 @@ import zx.blog.article.utils.htmlTag.Pre;
 
 public class ArticleBriefTools {
 	public static final int DEFAULT_LENGTH = 1000;
-	public static String getBrief(String content, int maxSize) throws ParserException{
+	public static String getBrief(String content, int maxSize){
 		if(StringUtils.isBlank(content))
 			return "";
 		if(maxSize <= 0)
@@ -34,15 +34,22 @@ public class ArticleBriefTools {
 		//注册 pre 标签
 		PrototypicalNodeFactory factory = (PrototypicalNodeFactory)(parser.getNodeFactory());
 		factory.registerTag(new Pre());
-		@SuppressWarnings("serial")
-		NodeList nodes = parser.extractAllNodesThatMatch(new NodeFilter() {
-			@Override
-			public boolean accept(Node node) {
-				if(node instanceof CompositeTag)
-					return true;
-				return false;
-			}
-		});
+		NodeList nodes = null;
+		try {
+			nodes = parser.extractAllNodesThatMatch(new NodeFilter() {
+				private static final long serialVersionUID = 4476668746854748093L;
+
+				@Override
+				public boolean accept(Node node) {
+					if(node instanceof CompositeTag)
+						return true;
+					return false;
+				}
+			});
+		} catch (ParserException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		for(int i = 0; i < nodes.size(); i++){
 			Node node = nodes.elementAt(i);
 			//result.append(node.toHtml());

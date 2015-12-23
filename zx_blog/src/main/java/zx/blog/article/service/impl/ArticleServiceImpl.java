@@ -1,10 +1,9 @@
 package zx.blog.article.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-import org.htmlparser.util.ParserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -45,23 +44,10 @@ public class ArticleServiceImpl implements ArticleService{
 		Map<String, Integer> map = PageUtils.getNextArticlePage(pageNum);
 		int start = map.get("start");
 		int end = map.get("end");
-		List<Article> articles = articleDao.findOnePageArticle(start, end);
-		List<ArticleDto> articleDtos = new ArrayList<ArticleDto>();
-		for(Article article : articles){
-			//作者
-			User author = CacheHolder.getUserById(article.getUserId());
-			//类别
-			Category category = CacheHolder.getCagetoryById(article.getCategoryId());
-			
-			ArticleDto articleDto = ArticleDto.valueOf(author, category, article);
-			try {
-				articleDto.setContent(ArticleBriefTools.getBrief(article.getContent(), ARTICLE_BRIEF_LENGTH));
-			} catch (ParserException e) {
-				e.printStackTrace();
-			}
-			
-			articleDtos.add(articleDto);
-		}
+		List<ArticleDto> articleDtos = articleDao.findOnePageArticle(start, end).stream()
+				.map(article->ArticleDto.valueOf(CacheHolder.getUserById(article.getUserId()), CacheHolder.getCagetoryById(article.getCategoryId()), article))
+				.collect(Collectors.toList());
+		articleDtos.forEach(articleDto->articleDto.setContent(ArticleBriefTools.getBrief(articleDto.getContent(), ARTICLE_BRIEF_LENGTH)));
 		return articleDtos;
 	}
 	
@@ -107,45 +93,19 @@ public class ArticleServiceImpl implements ArticleService{
 
 	@Override
 	public List<ArticleDto> getAllArticleDto() {
-		List<Article> articles = this.articleDao.findAll();
-		List<ArticleDto> articleDtos = new ArrayList<ArticleDto>();
-		for(Article article : articles){
-			//作者
-			User author = CacheHolder.getUserById(article.getUserId());
-			//类别
-			Category category = CacheHolder.getCagetoryById(article.getCategoryId());
-			
-			ArticleDto articleDto = ArticleDto.valueOf(author, category, article);
-			try {
-				articleDto.setContent(ArticleBriefTools.getBrief(article.getContent(), ARTICLE_BRIEF_LENGTH));
-			} catch (ParserException e) {
-				e.printStackTrace();
-			}
-			
-			articleDtos.add(articleDto);
-		}
+		List<ArticleDto> articleDtos = this.articleDao.findAll().stream()
+				.map(article->ArticleDto.valueOf(CacheHolder.getUserById(article.getUserId()), CacheHolder.getCagetoryById(article.getCategoryId()), article))
+				.collect(Collectors.toList());
+		articleDtos.forEach(articleDto->articleDto.setContent(ArticleBriefTools.getBrief(articleDto.getContent(), ARTICLE_BRIEF_LENGTH)));
 		return articleDtos;
 	}
 
 	@Override
 	public List<ArticleDto> getArticleByCategory(int categoryId) {
-		List<Article> articles = this.articleDao.findByCategoryId(categoryId);
-		List<ArticleDto> articleDtos = new ArrayList<ArticleDto>();
-		for(Article article : articles){
-			//作者
-			User author = CacheHolder.getUserById(article.getUserId());
-			//类别
-			Category category = CacheHolder.getCagetoryById(article.getCategoryId());
-			
-			ArticleDto articleDto = ArticleDto.valueOf(author, category, article);
-			try {
-				articleDto.setContent(ArticleBriefTools.getBrief(article.getContent(), ARTICLE_BRIEF_LENGTH));
-			} catch (ParserException e) {
-				e.printStackTrace();
-			}
-			
-			articleDtos.add(articleDto);
-		}
+		List<ArticleDto> articleDtos = this.articleDao.findByCategoryId(categoryId).stream()
+				.map(article->ArticleDto.valueOf(CacheHolder.getUserById(article.getUserId()), CacheHolder.getCagetoryById(article.getCategoryId()), article))
+				.collect(Collectors.toList());
+		articleDtos.forEach(articleDto->articleDto.setContent(ArticleBriefTools.getBrief(articleDto.getContent(), ARTICLE_BRIEF_LENGTH)));
 		return articleDtos;
 	}
 	
