@@ -1,12 +1,19 @@
 package zx.blog.article.service;
 
 import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import zx.blog.article.domain.Article;
 import zx.blog.article.dto.ArticleDto;
+import zx.blog.article.utils.ArticleBriefTools;
 
 public interface ArticleService {
 	
+	BiFunction<String, Integer, String> briefContentSupplier = ArticleBriefTools::getBrief;
+	
+	Function<Article, ArticleDto> articleBriefDtoCreatorFunction = ((Function<Article, ArticleDto>)(ArticleDto::valueOf))
+			.andThen(articleDto->articleDto.setBriefContent(briefContentSupplier));
 
 	/**
 	 * 根据文章ID查找文章 dto

@@ -1,6 +1,9 @@
 package zx.blog.article.dto;
 
+import java.util.function.BiFunction;
+
 import zx.blog.article.domain.Article;
+import zx.blog.cache.container.CacheHolder;
 import zx.blog.category.domain.Category;
 import zx.blog.user.domain.User;
 
@@ -11,6 +14,9 @@ import zx.blog.user.domain.User;
  */
 public class ArticleDto
 {
+	/**文章摘要的长度*/
+	private static final Integer ARTICLE_BRIEF_LENGTH = Integer.valueOf(300);
+	
 	//作者名称
 	private String authorName;
 	//作者头像
@@ -32,12 +38,13 @@ public class ArticleDto
 	
 	/**
 	 * 实例化方法
-	 * @param user
-	 * @param category
 	 * @param article
 	 * @return
 	 */
-	public static ArticleDto valueOf(User user, Category category, Article article){
+	public static ArticleDto valueOf(Article article){
+		User user= CacheHolder.getUserById(article.getUserId());
+		Category category  = CacheHolder.getCagetoryById(article.getCategoryId());
+		
 		ArticleDto articleDto = new ArticleDto();
 		articleDto.setAuthorName(user.getUserName());
 		articleDto.setAuthorImgUrl(user.getImgUrl());
@@ -124,5 +131,11 @@ public class ArticleDto
 	public void setTotalViewTimes(int totalViewTimes)
 	{
 		this.totalViewTimes = totalViewTimes;
+	}
+	
+	public ArticleDto setBriefContent(BiFunction<String, Integer, String> briefContentSupplier)
+	{
+		this.setContent(briefContentSupplier.apply(this.getContent(), ARTICLE_BRIEF_LENGTH));
+		return this;
 	}
 }

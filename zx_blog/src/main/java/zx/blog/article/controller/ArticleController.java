@@ -110,11 +110,11 @@ public class ArticleController {
 		ModelAndView mdv =new ModelAndView();
 		//设置所有的文章基本信息（名称，作者，时间，类别，标签）
 		List<ArticleDto> articles = articleService.getAllArticleDto();
-		//设置最近一篇文章的详细信息
+
 		if(articles != null && articles.size() > 0){
-			ArticleDto firstArticle = articleService.getArticleDtoById(articleId);
 			mdv.addObject("articles", articles);
-			mdv.addObject("firstArticle", firstArticle);
+			//设置最近一篇文章的详细信息
+			mdv.addObject("firstArticle", articleService.getArticleDtoById(articleId));
 		}
 		mdv.setViewName(UserConstant.BACKSTAGE_MAIN_VIEW_NAME);
 		return mdv;
@@ -134,7 +134,7 @@ public class ArticleController {
 	}
 	
 	/**
-	 * 发布 博文
+	 * 发布 文章
 	 * @param article
 	 * @return
 	 */
@@ -143,16 +143,16 @@ public class ArticleController {
 	public Map<String, String> postArticle(int categoryId, String title, String content){
 		logger.info("receive title" + title);
 		logger.info("receive content" + content);
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, String> result = new HashMap<String, String>();
 		
 		int userId = ((User)(this.getRequest().getSession().getAttribute(UserConstant.LOGIN_KEY))).getUserId();
 		
 		Article article = Article.valueOf(title, content, userId, categoryId);
 		articleService.addArticle(article);
-		map.put("articleId", article.getArticleId() + "");
-		map.put("msgCode", "1");
-		map.put("message", "文章发布成功！");
-		return map;
+		result.put("articleId", article.getArticleId() + "");
+		result.put("msgCode", "1");
+		result.put("message", "文章发布成功！");
+		return result;
 	} 
 	
 	

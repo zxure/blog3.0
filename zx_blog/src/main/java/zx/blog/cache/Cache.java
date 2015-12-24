@@ -5,7 +5,6 @@ import java.util.List;
 /**
  * 缓存
  * @author wqr503
- *
  */
 public interface Cache<K, V> {
 	/**

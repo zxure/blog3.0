@@ -10,7 +10,7 @@ import zx.blog.category.dto.CategoryConvert;
 import zx.blog.category.dto.SimpleCategoryDto;
 import zx.blog.user.domain.User;
 
-public class CacheHolder{
+public class CacheManager{
 	
 	/*用户缓存    key:用户ID -> value:用户*/
 	private static Cache<Integer, User> userCache = new LocalCache<Integer, User>();

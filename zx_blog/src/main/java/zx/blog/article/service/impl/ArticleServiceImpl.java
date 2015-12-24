@@ -10,13 +10,11 @@ import org.springframework.stereotype.Component;
 import zx.blog.article.domain.Article;
 import zx.blog.article.dto.ArticleDto;
 import zx.blog.article.service.ArticleService;
-import zx.blog.article.utils.ArticleBriefTools;
 import zx.blog.cache.container.CacheHolder;
 import zx.blog.category.domain.Category;
 import zx.blog.common.SystemContext;
 import zx.blog.mapper.ArticleMapper;
 import zx.blog.mapper.CategoryMapper;
-import zx.blog.user.domain.User;
 import zx.blog.util.PageUtils;
 
 @Component
@@ -25,8 +23,6 @@ public class ArticleServiceImpl implements ArticleService{
 	private ArticleMapper articleDao;
 	@Autowired
 	private CategoryMapper categoryDao;
-	
-	private static final int ARTICLE_BRIEF_LENGTH = 300;
 
 	@Override
 	public boolean addArticle(final Article article) {
@@ -45,9 +41,8 @@ public class ArticleServiceImpl implements ArticleService{
 		int start = map.get("start");
 		int end = map.get("end");
 		List<ArticleDto> articleDtos = articleDao.findOnePageArticle(start, end).stream()
-				.map(article->ArticleDto.valueOf(CacheHolder.getUserById(article.getUserId()), CacheHolder.getCagetoryById(article.getCategoryId()), article))
+				.map(articleBriefDtoCreatorFunction)
 				.collect(Collectors.toList());
-		articleDtos.forEach(articleDto->articleDto.setContent(ArticleBriefTools.getBrief(articleDto.getContent(), ARTICLE_BRIEF_LENGTH)));
 		return articleDtos;
 	}
 	
@@ -62,23 +57,13 @@ public class ArticleServiceImpl implements ArticleService{
 		Article article = this.getArticleById(articleId);
 		article.setTotalViewTimes(article.getTotalViewTimes() + 1);
 		this.updateArticle(article);
-		
-		//作者
-		User author = CacheHolder.getUserById(article.getUserId());
-		//类别
-		Category category = CacheHolder.getCagetoryById(article.getCategoryId());
-		
-		return ArticleDto.valueOf(author, category, article);
+		return ArticleDto.valueOf(article);
 	}
 
 	@Override
 	public ArticleDto getArticleDtoById(int articleId) {
 		Article article= this.articleDao.findById(articleId);
-		//作者
-		User author = CacheHolder.getUserById(article.getUserId());
-		//类别
-		Category category = CacheHolder.getCagetoryById(article.getCategoryId());
-		return ArticleDto.valueOf(author, category, article);
+		return ArticleDto.valueOf(article);
 	}
 	
 	@Override
@@ -94,18 +79,16 @@ public class ArticleServiceImpl implements ArticleService{
 	@Override
 	public List<ArticleDto> getAllArticleDto() {
 		List<ArticleDto> articleDtos = this.articleDao.findAll().stream()
-				.map(article->ArticleDto.valueOf(CacheHolder.getUserById(article.getUserId()), CacheHolder.getCagetoryById(article.getCategoryId()), article))
+				.map(articleBriefDtoCreatorFunction)
 				.collect(Collectors.toList());
-		articleDtos.forEach(articleDto->articleDto.setContent(ArticleBriefTools.getBrief(articleDto.getContent(), ARTICLE_BRIEF_LENGTH)));
 		return articleDtos;
 	}
 
 	@Override
 	public List<ArticleDto> getArticleByCategory(int categoryId) {
 		List<ArticleDto> articleDtos = this.articleDao.findByCategoryId(categoryId).stream()
-				.map(article->ArticleDto.valueOf(CacheHolder.getUserById(article.getUserId()), CacheHolder.getCagetoryById(article.getCategoryId()), article))
+				.map(articleBriefDtoCreatorFunction)
 				.collect(Collectors.toList());
-		articleDtos.forEach(articleDto->articleDto.setContent(ArticleBriefTools.getBrief(articleDto.getContent(), ARTICLE_BRIEF_LENGTH)));
 		return articleDtos;
 	}
 	
