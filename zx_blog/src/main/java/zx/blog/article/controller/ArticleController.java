@@ -20,7 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import zx.blog.article.domain.Article;
 import zx.blog.article.dto.ArticleDto;
 import zx.blog.article.service.ArticleService;
-import zx.blog.cache.container.CacheHolder;
+import zx.blog.cache.CacheHolder;
 import zx.blog.category.domain.Category;
 import zx.blog.user.common.UserConstant;
 import zx.blog.user.domain.User;

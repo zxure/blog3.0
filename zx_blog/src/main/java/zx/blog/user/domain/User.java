@@ -1,7 +1,9 @@
 package zx.blog.user.domain;
 
+import zx.blog.entity.TableRecordVersion;
 
-public class User {
+public class User extends TableRecordVersion{
+	private static final long serialVersionUID = -5821890438452510851L;
 	private int userId; //用户ID
 	private String userName;  //用户名
 	private String title;	//称呼（用于显示在界面上）
@@ -59,5 +61,9 @@ public class User {
 	}
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
+	}
+	@Override
+	public String obtainCacheKey() {
+		return User.class.getSimpleName() + SEPERATOR + this.userId;
 	}
 }

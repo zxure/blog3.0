@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import zx.blog.article.service.ArticleService;
-import zx.blog.cache.container.CacheHolder;
+import zx.blog.cache.CacheHolder;
 import zx.blog.category.domain.Category;
 import zx.blog.category.service.CategoryService;
 import zx.blog.user.domain.User;

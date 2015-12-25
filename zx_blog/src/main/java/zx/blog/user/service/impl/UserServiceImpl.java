@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import zx.blog.cache.container.CacheHolder;
+import zx.blog.cache.CacheHolder;
 import zx.blog.mapper.UserMapper;
 import zx.blog.user.domain.User;
 import zx.blog.user.service.UserService;

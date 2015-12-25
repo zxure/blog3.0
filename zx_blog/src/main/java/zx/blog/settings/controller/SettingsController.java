@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import zx.blog.cache.container.CacheHolder;
+import zx.blog.cache.CacheHolder;
 
 @Controller
 @RequestMapping("/admin")

@@ -1,6 +1,12 @@
 package zx.blog.entity;
 
-public abstract class TableRecordVersion {
+import java.io.Serializable;
+
+public abstract class TableRecordVersion implements Serializable{
+	private static final long serialVersionUID = 7722409467311815297L;
+	
+	public static final String SEPERATOR = "_";
+
 	private int version = 0;
 	
 	private boolean updateFlag = false;
@@ -8,16 +14,10 @@ public abstract class TableRecordVersion {
 	private boolean readWriteFlag = false;
 	
 	/**
-	 * 对应的唯一 mapper 的名称
+	 * 获取缓存中的唯一的key
 	 * @return
 	 */
-	public abstract String obtainMapperName();
-
-	/**
-	 * 获取唯一的key
-	 * @return
-	 */
-	public abstract String obtainKey();
+	public abstract String obtainCacheKey();
 
 	public int getVersion() {
 		return version;

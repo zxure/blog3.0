@@ -58,11 +58,11 @@
 </select>
 
 <!-- 根据文章ID查询文章 -->
-<select id="findById" resultMap="article" parameterType="java.lang.Integer">
+<select id="slelectById" resultMap="article" parameterType="java.lang.Integer">
 	SELECT 
 	<include refid="base_column_list" /> 
 	FROM article WHERE 
-	articleId = #{articleId} ORDER BY postTime DESC, lastUpdateTime DESC
+	articleId = #{id} ORDER BY postTime DESC, lastUpdateTime DESC
 </select>
 
 <!-- 根据类别ID删除文章 -->
@@ -85,9 +85,9 @@
 	FROM article where categoryId = #{categoryId} ORDER BY postTime DESC, lastUpdateTime DESC
 </select>
 
-<update id="deleteArticleByArticleId">
-	delete from article where articleId = #{articleId}
-</update>
+<delete id="delete">
+	delete from article where articleId = #{id}
+</delete>
 
 </mapper>
 

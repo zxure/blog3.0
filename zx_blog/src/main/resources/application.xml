@@ -36,4 +36,6 @@
 		搜索到。可指定多个包，包与包之间用逗号或分号分隔-->
 		<property name="basePackage" value="zx.blog.mapper"/>
 	</bean>
+	
+	<context:component-scan base-package="zx.blog.cache" />
 </beans>

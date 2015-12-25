@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import zx.blog.article.domain.Article;
 import zx.blog.article.dto.ArticleDto;
 import zx.blog.article.service.ArticleService;
-import zx.blog.cache.container.CacheHolder;
+import zx.blog.cache.CacheHolder;
 import zx.blog.category.domain.Category;
 import zx.blog.common.SystemContext;
 import zx.blog.mapper.ArticleMapper;
@@ -62,13 +62,13 @@ public class ArticleServiceImpl implements ArticleService{
 
 	@Override
 	public ArticleDto getArticleDtoById(int articleId) {
-		Article article= this.articleDao.findById(articleId);
+		Article article= this.articleDao.slelectById(articleId);
 		return ArticleDto.valueOf(article);
 	}
 	
 	@Override
 	public Article getArticleById(int articleId){
-		return this.articleDao.findById(articleId);
+		return this.articleDao.slelectById(articleId);
 	}
 
 	@Override
@@ -94,9 +94,9 @@ public class ArticleServiceImpl implements ArticleService{
 	
 	@Override
 	public void deleteArticle(int articleId){
-		Article article = this.articleDao.findById(articleId);
+		Article article = this.articleDao.slelectById(articleId);
 		Category category = CacheHolder.getCagetoryById(article.getCategoryId());
-		this.articleDao.deleteArticleByArticleId(articleId);
+		this.articleDao.delete(articleId);
 		category.setTotalArticleNum(category.getTotalArticleNum() - 1);
 		this.categoryDao.update(category);
 	}

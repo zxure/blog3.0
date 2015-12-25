@@ -13,11 +13,20 @@
 	<sql id="base_column_list">
 		categoryId, categoryName, totalArticleNum, createTime
 	</sql>
-
-	<select id="findAll" resultMap="category">
+	
+	<insert id="insert" parameterType="zx.blog.category.domain.Category">
+		insert into category(categoryName, totalArticleNum, createTime) 
+		values(#{categoryName}, #{totalArticleNum}, #{createTime, typeHandler=zx.blog.myibtais.typehandler.TimeDateTypeHandler})
+		<selectKey resultType="int" keyProperty="categoryId" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<select id="selectById" resultMap="category" parameterType="java.lang.Integer">
 		select
 		<include refid="base_column_list" />
-		from category;
+		from category 
+		where categoryId={#id};
 	</select>
 	
 	<update id="update" parameterType="zx.blog.category.domain.Category">
@@ -29,14 +38,12 @@
 	</update>
 	
 	<delete id="delete" >
-		delete from category where categoryId = #{categoryId}
+		delete from category where categoryId = #{id}
 	</delete>
-	
-	<insert id="insert" parameterType="zx.blog.category.domain.Category">
-		insert into category(categoryName, totalArticleNum, createTime) 
-		values(#{categoryName}, #{totalArticleNum}, #{createTime, typeHandler=zx.blog.myibtais.typehandler.TimeDateTypeHandler})
-		<selectKey resultType="int" keyProperty="categoryId" order="AFTER">
-			SELECT LAST_INSERT_ID()
-		</selectKey>
-	</insert>
+
+	<select id="findAll" resultMap="category">
+		select
+		<include refid="base_column_list" />
+		from category;
+	</select>
 </mapper>

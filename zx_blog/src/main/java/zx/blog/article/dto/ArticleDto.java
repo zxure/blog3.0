@@ -3,7 +3,7 @@ package zx.blog.article.dto;
 import java.util.function.BiFunction;
 
 import zx.blog.article.domain.Article;
-import zx.blog.cache.container.CacheHolder;
+import zx.blog.cache.CacheHolder;
 import zx.blog.category.domain.Category;
 import zx.blog.user.domain.User;
 

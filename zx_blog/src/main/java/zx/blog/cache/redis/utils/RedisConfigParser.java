@@ -1,4 +1,4 @@
-package zx.blog.cache.config;
+package zx.blog.cache.redis.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,19 +8,20 @@ import java.util.function.Consumer;
 
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
-import org.mybatis.caches.redis.ConfigWithHost;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RedisConfig {
+import zx.blog.cache.redis.config.RedisConfigWithLevelAndOpen;
+
+public class RedisConfigParser {
 	
-	private static final Logger logger = LoggerFactory.getLogger(RedisConfig.class);
+	private static final Logger logger = LoggerFactory.getLogger(RedisConfigParser.class);
 	
-	private RedisConfig(){}
+	private RedisConfigParser(){}
 	
-	private static final RedisConfig instance = new RedisConfig();
+	private static final RedisConfigParser instance = new RedisConfigParser();
 	
-	public static RedisConfig getInstance(){
+	public static RedisConfigParser getInstance(){
 		return instance;
 	}
 	
@@ -31,11 +32,11 @@ public class RedisConfig {
 	 * @param configFileName
 	 * @return
 	 */
-	public ConfigWithHost parseConfig(){
+	public RedisConfigWithLevelAndOpen parseConfig(){
 		
 		Properties properties = new Properties();
 		
-		InputStream ins = RedisConfig.class.getClassLoader().getResourceAsStream(configFileName);
+		InputStream ins = RedisConfigParser.class.getClassLoader().getResourceAsStream(configFileName);
 		
 		if(ins != null){
 			try{
@@ -51,7 +52,7 @@ public class RedisConfig {
 			}
 		}
 		
-		ConfigWithHost config = new ConfigWithHost();
+		RedisConfigWithLevelAndOpen config = new RedisConfigWithLevelAndOpen();
 		config.setHost("127.0.0.1");
 		
 		this.setPropertyToConfig(properties, config);
@@ -60,7 +61,7 @@ public class RedisConfig {
 	}
 
 	//把属性值设置到config中
-	private void setPropertyToConfig(Properties properties, ConfigWithHost config) {
+	private void setPropertyToConfig(Properties properties, RedisConfigWithLevelAndOpen config) {
 		if(properties == null){
 			return ;
 		}

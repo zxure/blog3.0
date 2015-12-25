@@ -1,5 +1,6 @@
 package zx.blog.article.domain;
 
+import zx.blog.entity.TableRecordVersion;
 import zx.blog.util.TimeDateUtil;
 
 /**
@@ -7,7 +8,8 @@ import zx.blog.util.TimeDateUtil;
  * @author zxuan
  *
  */
-public class Article {
+public class Article extends TableRecordVersion{
+	private static final long serialVersionUID = -6055899087064824146L;
 	/**可见状态*/
 	public static final int VISIBAL_STATE = 0;
 	/**不可见状态*/
@@ -106,5 +108,10 @@ public class Article {
 	public void setBriefContent(String briefContent)
 	{
 		this.briefContent = briefContent;
+	}
+	
+	@Override
+	public String obtainCacheKey() {
+		return Article.class.getName() + SEPERATOR +this.articleId;
 	}
 }

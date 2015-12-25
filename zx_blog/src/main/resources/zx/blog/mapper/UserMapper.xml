@@ -16,7 +16,46 @@
 	<sql id="base_column_list">
 		userId, userName, title, userPassword, lastLoginTime, userState, privilege, imgUrl 
 	</sql>
+	<!-- 
+	private int userId; //用户ID
+	private String userName;  //用户名
+	private String title;	//称呼（用于显示在界面上）
+	private String userPassword;  //用户密码
+	private String lastLoginTime;   //上次登录时间(时间戳，秒)
+	private int userState;		//用户状态
+	private int privilege;		//权限级别
+	private String imgUrl;		//头像地址
+	 -->
+	<insert id="insert" parameterType="zx.blog.user.domain.User">
+		insert into user values
+		(#{userId}, #{userName}, #{title}, #{userPassword}, 
+		#{lastLoginTime, typeHandler=zx.blog.myibtais.typehandler.TimeDateTypeHandler}
+		, #{userState}, #{privilege}, #{imgUrl})
+	</insert>
+	
+	<select id="slelectById" resultMap="user" parameterType="java.lang.Integer" >
+		SELECT 
+		<include refid="base_column_list" />
+		FROM user 
+		WHERE userId = #{userId}
+	</select>
 
+	<update id="update" parameterType="zx.blog.user.domain.User">
+		UPDATE user set
+		userName = #{userName},
+		title = #{title},
+		userPassword = #{userPassword},
+		lastLoginTime = #{lastLoginTime, typeHandler=zx.blog.myibtais.typehandler.TimeDateTypeHandler},
+		userState = #{userState}, 
+		privilege = #{privilege},
+		imgUrl = #{imgUrl}
+		WHERE userId = #{id}
+	</update>
+	
+	<delete id="delete" >
+		delete from userWHERE userId = #{id}
+	</delete>
+	
 	<!-- 查询全部 用户 -->
 	<select id="findAll" resultMap="user">
 		SELECT 
@@ -30,18 +69,7 @@
 		<include refid="base_column_list" />
 		FROM user WHERE userName=#{userName}
 	</select>
-
-	<update id="updateUser" parameterType="zx.blog.user.domain.User">
-		UPDATE user set
-		userName = #{userName},
-		title = #{title},
-		userPassword = #{userPassword},
-		lastLoginTime = #{lastLoginTime, typeHandler=zx.blog.myibtais.typehandler.TimeDateTypeHandler},
-		userState = #{userState}, 
-		privilege = #{privilege},
-		imgUrl = #{imgUrl}
-		WHERE userId = #{userId}
-	</update>
+	
 </mapper>
 
 

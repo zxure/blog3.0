@@ -1,12 +1,14 @@
 package zx.blog.category.domain;
 
+import zx.blog.entity.TableRecordVersion;
 
 /**
  * 文章类别
  * @author zxuan
  *
  */
-public class Category {
+public class Category extends TableRecordVersion{
+	private static final long serialVersionUID = -4427126698387274513L;
 	private int categoryId;  //类别ID
 	private String categoryName;   //类别名称
 	private int totalArticleNum; //改类别下的总文章数目
@@ -35,5 +37,9 @@ public class Category {
 	}
 	public void setTotalArticleNum(int totalArticleNum) {
 		this.totalArticleNum = totalArticleNum;
+	}
+	@Override
+	public String obtainCacheKey() {
+		return Category.class.getSimpleName() + SEPERATOR + this.categoryId;
 	}
 }

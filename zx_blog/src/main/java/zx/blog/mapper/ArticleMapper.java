@@ -6,18 +6,12 @@ import org.apache.ibatis.annotations.Param;
 
 import zx.blog.article.domain.Article;
 
-public interface ArticleMapper {
-	/**
-	 * 新增文章
-	 * @param article
-	 */
-	public void insert(Article article);
-	/**
-	 * 更新文章
-	 * @param article
-	 */
-	public void update(Article article);
-	
+/**
+ * aetilce 数据库操作类
+ * @author Administrator
+ *
+ */
+public interface ArticleMapper extends BaseMapper<Integer, Article>{
 	/**
 	 * 查找全部文章
 	 * @return
@@ -31,17 +25,10 @@ public interface ArticleMapper {
 	public int getArticleTotalNum();
 	
 	/**
-	 * 根据ID查找文章
-	 * @param i
-	 * @return
-	 */
-	public Article findById(@Param("articleId")int articleId);
-	
-	/**
 	 * 根据类别ID删除文章
 	 * @param categoryId
 	 */
-	public void deleteArticleByCategoryId(int categoryId);
+	public void deleteArticleByCategoryId(Integer categoryId);
 	
 	/**
 	 * 查询一页的文章
@@ -49,19 +36,12 @@ public interface ArticleMapper {
 	 * @param end	结束
 	 * @return
 	 */
-	public List<Article> findOnePageArticle(@Param("start")int start, @Param("end")int end);
+	public List<Article> findOnePageArticle(@Param("start")Integer start, @Param("end")Integer end);
 	
 	/**
 	 * 根据类别查询
 	 * @param categoryId
 	 * @return
 	 */
-	public List<Article> findByCategoryId(int categoryId);
-	
-	/**
-	 * 根据文章ID删除文章
-	 * @param articleId
-	 */
-	public void deleteArticleByArticleId(int articleId);
-
+	public List<Article> findByCategoryId(Integer categoryId);
 }
