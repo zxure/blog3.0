@@ -3,7 +3,7 @@ package zx.blog.util;
 import java.util.HashMap;
 import java.util.Map;
 
-import zx.blog.common.SystemContext;
+import zx.blog.system.SystemContext;
 
 public class PageUtils {
 	/**

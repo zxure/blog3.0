@@ -19,9 +19,9 @@ import zx.blog.cache.core.impl.ArticleCacheManager;
 import zx.blog.cache.core.impl.CategoryCacheManager;
 import zx.blog.cache.core.impl.UserCacheManager;
 import zx.blog.category.domain.Category;
-import zx.blog.common.SystemContext;
 import zx.blog.mapper.ArticleMapper;
 import zx.blog.mapper.CategoryMapper;
+import zx.blog.system.SystemContext;
 import zx.blog.user.domain.User;
 import zx.blog.util.PageUtils;
 

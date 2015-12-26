@@ -1,4 +1,4 @@
-package zx.blog.common;
+package zx.blog.system;
 
 import java.io.IOException;
 import java.io.InputStream;

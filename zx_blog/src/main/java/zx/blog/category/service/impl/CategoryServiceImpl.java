@@ -10,9 +10,9 @@ import zx.blog.cache.core.impl.CategoryCacheManager;
 import zx.blog.category.domain.Category;
 import zx.blog.category.dto.CategoryDto;
 import zx.blog.category.service.CategoryService;
-import zx.blog.common.SystemContext;
 import zx.blog.mapper.ArticleMapper;
 import zx.blog.mapper.CategoryMapper;
+import zx.blog.system.SystemContext;
 @Component
 public class CategoryServiceImpl implements CategoryService{
 
