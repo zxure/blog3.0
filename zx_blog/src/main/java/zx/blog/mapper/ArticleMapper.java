@@ -12,11 +12,6 @@ import zx.blog.article.domain.Article;
  *
  */
 public interface ArticleMapper extends BaseMapper<Integer, Article>{
-	/**
-	 * 查找全部文章
-	 * @return
-	 */
-	public List<Article> findAll();
 	
 	/**
 	 * 查询可见文章总数目

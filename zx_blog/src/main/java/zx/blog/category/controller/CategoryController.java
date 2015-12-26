@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import zx.blog.cache.CacheHolder;
 import zx.blog.category.domain.Category;
 import zx.blog.category.service.CategoryService;
 import zx.blog.util.TimeDateUtil;
@@ -20,6 +19,7 @@ public class CategoryController {
 	
 	@Autowired
 	private CategoryService categoryService;
+	
 	
 	/**
 	 * 添加一个类别
@@ -37,7 +37,7 @@ public class CategoryController {
 		}
 		categoryName = categoryName.trim();
 		//存在同样的名字
-		if(CacheHolder.isExistCategory(categoryName)){
+		if(categoryService.isExistCategory(categoryName)){
 			result.put("msgCode", -2);
 			result.put("message", "已经存在相同的类别！");
 			return result;
@@ -46,7 +46,6 @@ public class CategoryController {
 		category.setCategoryName(categoryName);
 		category.setCreateTime(TimeDateUtil.getCurrentTimestr());
 		categoryService.addCategory(category);
-		CacheHolder.addCategory(category);
 		result.put("categoryId", category.getCategoryId());
 		result.put("msgCode", 0);
 		result.put("message", "类别添加成功！");
@@ -57,14 +56,13 @@ public class CategoryController {
 	@ResponseBody
 	public Map<String, Object> removeCategory(int categoryId){
 		Map<String, Object> result = new HashMap<String, Object>();
-		Category category = CacheHolder.getCagetoryById(categoryId);
+		Category category = categoryService.findById(categoryId);
 		if(category == null){
 			result.put("msgCode", -1);
 			result.put("message", "类别不存在！");
 			return result;
 		}
 		categoryService.remove(categoryId);
-		CacheHolder.removeCategoryById(categoryId);
 		result.put("msgCode", 0);
 		result.put("message", "类别删除成功！");
 		return result;
@@ -74,7 +72,7 @@ public class CategoryController {
 	@ResponseBody
 	public Map<String, Object> update(int categoryId, String categoryName){
 		Map<String, Object> result = new HashMap<String, Object>();
-		Category category = CacheHolder.getCagetoryById(categoryId);
+		Category category = this.categoryService.findById(categoryId);
 		if(category == null){
 			result.put("msgCode", -1);
 			result.put("message", "该类别不存在！");

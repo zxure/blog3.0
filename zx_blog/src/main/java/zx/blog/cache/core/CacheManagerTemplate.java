@@ -1,9 +1,11 @@
 package zx.blog.cache.core;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import zx.blog.cache.CacheType;
 import zx.blog.entity.TableRecordVersion;
@@ -28,12 +30,24 @@ public interface CacheManagerTemplate<DB_K extends Serializable, V extends Table
 	}
 	
 	/**
+	 * 从数据库查询全部记录
+	 * @return
+	 */
+	default List<V> selectAll(){
+		return this.getCorrespondingMapper().selectAll();
+	}
+	
+	/**
 	 * 查询缓存
 	 * @param cacheKey
 	 * @return
 	 */
 	default Optional<V> find(String cacheKey, DB_K dbKey){
 		return this.getFindOpt().apply(cacheKey, dbKey);
+	}
+	
+	default List<V> findAll(){
+		return this.getFindAllOpt().get();
 	}
 	
 	/**
@@ -64,6 +78,9 @@ public interface CacheManagerTemplate<DB_K extends Serializable, V extends Table
 	
 	/**获得 find 的逻辑处理器*/
 	public BiFunction<String, DB_K, Optional<V>> getFindOpt();
+	
+	/**获取findAll的逻辑处理器*/
+	public Supplier<List<V>> getFindAllOpt();
 	
 	/**获得 add 的逻辑处理器*/
 	public Consumer<V> getAddOpt();

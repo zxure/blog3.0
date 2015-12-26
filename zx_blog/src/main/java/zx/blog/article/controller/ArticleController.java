@@ -20,8 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 import zx.blog.article.domain.Article;
 import zx.blog.article.dto.ArticleDto;
 import zx.blog.article.service.ArticleService;
-import zx.blog.cache.CacheHolder;
 import zx.blog.category.domain.Category;
+import zx.blog.category.service.CategoryService;
 import zx.blog.user.common.UserConstant;
 import zx.blog.user.domain.User;
 import zx.blog.util.PageUtils;
@@ -35,6 +35,8 @@ public class ArticleController {
 
 	@Autowired
 	private ArticleService articleService;
+	@Autowired
+	private CategoryService categoryService;
 	
 	/**
 	 * 根据文章ID访问文章
@@ -48,7 +50,7 @@ public class ArticleController {
 		ArticleDto article = this.articleService.viewArticleById(articleId);
 		mdv.addObject("article", article);
 		//类别信息
-		List<Category> categoryList = CacheHolder.getCategoryList();
+		List<Category> categoryList = categoryService.findAllCategory();
 		mdv.addObject("categories", categoryList);
 		return mdv;
 	}
@@ -67,7 +69,7 @@ public class ArticleController {
 		mdv.addObject("articles", articles);
 
 		//首页类别信息
-		List<Category> categoryList = CacheHolder.getCategoryList();
+		List<Category> categoryList = categoryService.findAllCategory();
 		mdv.addObject("categories", categoryList);
 
 		//分页信息,当前页3， 12345
@@ -89,7 +91,7 @@ public class ArticleController {
 		List<ArticleDto> articles = articleService.getArticleByCategory(categoryId);
 		
 		//首页类别信息
-		List<Category> categoryList = CacheHolder.getCategoryList();
+		List<Category> categoryList = categoryService.findAllCategory();
 		mdv.addObject("categories", categoryList);
 		mdv.addObject("articles", articles);
 		
@@ -127,7 +129,7 @@ public class ArticleController {
 	@RequestMapping("/admin/article/new")
 	public ModelAndView writeAticle(){
 		ModelAndView mdv =new ModelAndView();
-		mdv.addObject("categories", CacheHolder.getSimpleCategoryDtoList());
+		mdv.addObject("categories", categoryService.findAllCategory());
 		mdv.addObject("optType", "postArticle");
 		mdv.setViewName("backstage/editor");
 		return mdv;
@@ -164,7 +166,7 @@ public class ArticleController {
 	@RequestMapping("/admin/editor/{articleId}")
 	public ModelAndView editArticle(@PathVariable("articleId")int articleId){
 		ModelAndView mdv =new ModelAndView();
-		mdv.addObject("categories", CacheHolder.getSimpleCategoryDtoList());
+		mdv.addObject("categories", categoryService.findAllCategory());
 		ArticleDto article = articleService.getArticleDtoById(articleId);
 		mdv.addObject("article", article);
 		mdv.addObject("optType", "updateArticle");

@@ -45,8 +45,8 @@
 	where articleId = #{articleId}
 </update>
 
-<!-- 查询全部(可见)文章 -->
-<select id="findAll" resultMap="article">
+<!-- 查询全部文章 -->
+<select id="selectAll" resultMap="article">
 	SELECT 
 	<include refid="base_column_list" /> 
 	FROM article ORDER BY postTime DESC, lastUpdateTime DESC

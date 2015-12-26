@@ -114,4 +114,8 @@ public class Article extends TableRecordVersion{
 	public String obtainCacheKey() {
 		return Article.class.getName() + SEPERATOR +this.articleId;
 	}
+	
+	public static String genKen(int id){
+		return Article.class.getSimpleName() + SEPERATOR + id;
+	}
 }

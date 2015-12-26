@@ -54,7 +54,7 @@ public class SearchLogic implements ServletContextAware{
 		long startTime = System.currentTimeMillis();
 		Directory directory = null;
 		IndexWriter indexWriter = null;
-		List<Article> articles = articleDao.findAll();
+		List<Article> articles = articleDao.selectAll();
 		try{
 			IndexWriterConfig indexWriterConfig = new IndexWriterConfig(Version.LUCENE_4_10_0, analyzer);
 			File indexDir = new File(this.path);

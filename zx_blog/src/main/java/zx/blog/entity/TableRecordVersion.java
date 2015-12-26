@@ -48,6 +48,5 @@ public abstract class TableRecordVersion implements Serializable{
 		return "TableRecordVersion [version=" + version + ", updateFlag=" + updateFlag + ", readWriteFlag="
 				+ readWriteFlag + "]";
 	}
-	
 }
 

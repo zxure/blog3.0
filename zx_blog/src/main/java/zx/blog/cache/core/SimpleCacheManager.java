@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -66,6 +67,17 @@ public abstract class SimpleCacheManager<DB_K extends Serializable, V extends Ta
 		return Optional.empty();
 	};
 	
+	private Supplier<List<V>> findAllOpt = ()->{
+		List<V> result = new ArrayList<V>();
+		
+		//TODO  先从缓存查询
+		
+		//再从数据库查询
+		result = this.selectAll();
+		
+		return result;
+	};
+	
 	/**insert的逻辑处理器*/
 	private Consumer<V> addOpt = entity -> accessorContainer.getAccessorList().stream().forEach(accessor->accessor.set(getCacheType(), entity.obtainCacheKey(), entity));
 	
@@ -78,6 +90,11 @@ public abstract class SimpleCacheManager<DB_K extends Serializable, V extends Ta
 	@Override
 	public BiFunction<String, DB_K, Optional<V>> getFindOpt() {
 		return findOpt;
+	}
+	
+	@Override
+	public Supplier<List<V>> getFindAllOpt(){
+		return this.findAllOpt;
 	}
 
 	@Override

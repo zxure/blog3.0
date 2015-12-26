@@ -1,11 +1,13 @@
 package zx.blog.user.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import zx.blog.cache.CacheHolder;
+import zx.blog.cache.core.impl.UserCacheManager;
 import zx.blog.mapper.UserMapper;
 import zx.blog.user.domain.User;
 import zx.blog.user.service.UserService;
@@ -14,30 +16,30 @@ import zx.blog.user.service.UserService;
 public class UserServiceImpl implements UserService{
 	
 	@Autowired
+	private UserCacheManager userCacheManager;
+	
+	@Autowired
 	private UserMapper userMapper;
 	
 	@Override
 	public List<User> findAllUser() {
-		return this.userMapper.findAll();
+		return this.userCacheManager.findAll();
 	}
 
 	@Override
-	public User findByUserName(String userName) {
-		return this.userMapper.findByName(userName);
+	public Optional<User> findByUserName(String userName) {
+		return this.findAllUser().stream().filter(user->StringUtils.isNotBlank(userName) && userName.equals(user.getUserName())).findFirst();
 	}
 
 	@Override
-	public User validLogin(String userName, String password) {
-		User user = CacheHolder.getUserByName(userName);
-		
-		if(user != null && password.equals(user.getUserPassword()))
-			return user;
-		
-		return null;
+	public Optional<User> validLogin(String userName, String password) {
+		return this.findAllUser().stream()
+				.filter(user->StringUtils.isNotBlank(userName) && userName.equals(user.getUserName()) && StringUtils.isNotBlank(password) && password.equals(user.getUserPassword()))
+				.findFirst();
 	}
 
 	@Override
 	public void updateUserLoginTime(User user) {
-		this.userMapper.updateUser(user);
+		this.userMapper.update(user);
 	}
 }

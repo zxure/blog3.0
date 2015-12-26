@@ -3,6 +3,7 @@ package zx.blog.category.service;
 import java.util.List;
 
 import zx.blog.category.domain.Category;
+import zx.blog.category.dto.CategoryDto;
 
 public interface CategoryService {
 	/**
@@ -28,5 +29,25 @@ public interface CategoryService {
 	 * @param categoryId
 	 */
 	public void remove(int categoryId);
+
+	/**
+	 * 判断类别是否存在
+	 * @param categoryName
+	 * @return
+	 */
+	public boolean isExistCategory(String categoryName);
+
+	/**
+	 * 根据ID查询一个类别
+	 * @param categoryId
+	 * @return
+	 */
+	public Category findById(int categoryId);
+
+	/**
+	 * 获取所有的 categoryDto
+	 * @return
+	 */
+	public List<CategoryDto> getAllCategoryDtoList();
 
 }

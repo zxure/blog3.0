@@ -1,6 +1,7 @@
 package zx.blog.user.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import zx.blog.user.domain.User;
 
@@ -17,7 +18,7 @@ public interface UserService {
 	 * @param userName  用户名
 	 * @return 
 	 */
-	public User findByUserName(String userName);
+	public Optional<User> findByUserName(String userName);
 
 	/**
 	 * 验证玩家登录
@@ -25,7 +26,7 @@ public interface UserService {
 	 * @param password 密码
 	 * @return
 	 */
-	public User validLogin(String userName, String password);
+	public Optional<User> validLogin(String userName, String password);
 
 	/**
 	 * 更新玩家登录的时间

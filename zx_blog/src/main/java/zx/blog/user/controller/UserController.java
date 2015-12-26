@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -59,8 +60,9 @@ public class UserController {
 			return map;
 		}
 		
-		User user = this.userService.validLogin(userName, password);
-		if(user != null){
+		Optional<User> userOptional = this.userService.validLogin(userName, password);
+		if(userOptional.isPresent()){
+			User user = userOptional.get();
 			Date nowTime = TimeDateUtil.getNowTime();
 			String nowTimeStr = TimeDateUtil.formatTime(nowTime);
 			//插入登录日志

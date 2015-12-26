@@ -41,7 +41,7 @@
 		delete from category where categoryId = #{id}
 	</delete>
 
-	<select id="findAll" resultMap="category">
+	<select id="selectAll" resultMap="category">
 		select
 		<include refid="base_column_list" />
 		from category;

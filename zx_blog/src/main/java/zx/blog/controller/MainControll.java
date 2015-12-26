@@ -10,14 +10,16 @@ import org.springframework.web.servlet.handler.RequestMappingOperator;
 
 import zx.blog.article.dto.ArticleDto;
 import zx.blog.article.service.ArticleService;
-import zx.blog.cache.CacheHolder;
 import zx.blog.category.domain.Category;
+import zx.blog.category.service.CategoryService;
 import zx.blog.util.PageUtils;
 
 @Controller
 public class MainControll {
 	@Autowired
 	private ArticleService articleService;
+	@Autowired
+	private CategoryService categoryService;
 	@Autowired
 	private RequestMappingOperator requestMappingOperator;
 	
@@ -30,7 +32,7 @@ public class MainControll {
 		mdv.addObject("articles", articles);
 
 		//首页类别信息
-		List<Category> categoryList = CacheHolder.getCategoryList();
+		List<Category> categoryList = categoryService.findAllCategory();
 		mdv.addObject("categories", categoryList);
 
 		//分页信息,当前页3， 12345

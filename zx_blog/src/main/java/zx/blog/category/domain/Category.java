@@ -42,4 +42,8 @@ public class Category extends TableRecordVersion{
 	public String obtainCacheKey() {
 		return Category.class.getSimpleName() + SEPERATOR + this.categoryId;
 	}
+	
+	public static String genKen(int id){
+		return Category.class.getSimpleName() + SEPERATOR + id;
+	}
 }

@@ -66,4 +66,8 @@ public class User extends TableRecordVersion{
 	public String obtainCacheKey() {
 		return User.class.getSimpleName() + SEPERATOR + this.userId;
 	}
+	
+	public static String genKey(int id){
+		return User.class.getSimpleName() + SEPERATOR + id;
+	}
 }

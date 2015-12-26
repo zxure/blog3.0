@@ -1,15 +1,16 @@
 package zx.blog.category.dto;
 
-public class SimpleCategoryDto {
+import zx.blog.category.domain.Category;
+
+public class CategoryDto {
 	private int categoryId;
 	private String categoryName;
-	public SimpleCategoryDto() {
-		super();
-	}
-	public SimpleCategoryDto(int categoryId, String categoryName) {
-		super();
-		this.categoryId = categoryId;
-		this.categoryName = categoryName;
+	
+	public static CategoryDto valueOf(Category category){
+		CategoryDto result = new CategoryDto();
+		result.categoryId = category.getCategoryId();
+		result.categoryName = category.getCategoryName();
+		return result;
 	}
 	public int getCategoryId() {
 		return categoryId;

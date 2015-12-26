@@ -1,14 +1,18 @@
 package zx.blog.settings.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import zx.blog.cache.CacheHolder;
+import zx.blog.category.service.CategoryService;
 
 @Controller
 @RequestMapping("/admin")
 public class SettingsController {
+	
+	@Autowired
+	private CategoryService categoryService;
 	
 	/**
 	 * 全局 设置页面跳转
@@ -45,7 +49,7 @@ public class SettingsController {
 	public ModelAndView settingsCategory(){
 		ModelAndView mdv = new ModelAndView();
 		mdv.addObject("isSettingsCategory", true);
-		mdv.addObject("categories", CacheHolder.getSimpleCategoryDtoList());
+		mdv.addObject("categories", categoryService.getAllCategoryDtoList());
 		mdv.setViewName("backstage/settingsCategory");
 		return mdv;
 	}

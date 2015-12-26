@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import zx.blog.article.service.ArticleService;
-import zx.blog.cache.CacheHolder;
 import zx.blog.category.domain.Category;
 import zx.blog.category.service.CategoryService;
 import zx.blog.user.domain.User;
@@ -44,14 +43,7 @@ public class ServerStartup{
 	private void initCache(){
 		//用户缓存
 		List<User> allUser = userService.findAllUser();
-		for(User user : allUser){
-			CacheHolder.addUser(user);
-		}
-		
 		//文章类别缓存
 		List<Category> allCategory = categoryService.findAllCategory();
-		for(Category category : allCategory){
-			CacheHolder.addCategory(category);
-		}
 	}
 }

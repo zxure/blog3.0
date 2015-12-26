@@ -57,7 +57,7 @@
 	</delete>
 	
 	<!-- 查询全部 用户 -->
-	<select id="findAll" resultMap="user">
+	<select id="selectAll" resultMap="user">
 		SELECT 
 		<include refid="base_column_list" />
 		FROM user

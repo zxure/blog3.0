@@ -11,14 +11,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import zx.blog.cache.CacheHolder;
 import zx.blog.category.domain.Category;
+import zx.blog.category.service.CategoryService;
 import zx.blog.library.service.LibraryService;
 
 @Controller
 public class LibraryController {
 	@Autowired
 	private LibraryService libraryService;
+	@Autowired
+	private CategoryService categoryService;
 	
 	/**
 	 * 实验室首页
@@ -27,7 +29,7 @@ public class LibraryController {
 	public ModelAndView library(){
 		ModelAndView mdv = new ModelAndView();
 		//类别信息
-		List<Category> categoryList = CacheHolder.getCategoryList();
+		List<Category> categoryList = categoryService.findAllCategory();
 		mdv.addObject("categories", categoryList);
 		mdv.setViewName("front/library/index");
 		return mdv;

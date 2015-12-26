@@ -3,7 +3,6 @@ package zx.blog.article.dto;
 import java.util.function.BiFunction;
 
 import zx.blog.article.domain.Article;
-import zx.blog.cache.CacheHolder;
 import zx.blog.category.domain.Category;
 import zx.blog.user.domain.User;
 
@@ -41,10 +40,7 @@ public class ArticleDto
 	 * @param article
 	 * @return
 	 */
-	public static ArticleDto valueOf(Article article){
-		User user= CacheHolder.getUserById(article.getUserId());
-		Category category  = CacheHolder.getCagetoryById(article.getCategoryId());
-		
+	public static ArticleDto valueOf(Article article, User user, Category category){
 		ArticleDto articleDto = new ArticleDto();
 		articleDto.setAuthorName(user.getUserName());
 		articleDto.setAuthorImgUrl(user.getImgUrl());
