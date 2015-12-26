@@ -25,7 +25,7 @@ public interface BaseMapper<DB_K extends Serializable, V extends TableRecordVers
 	 * @param id
 	 * @return
 	 */
-	public V slelectById(DB_K id);
+	public V selectById(DB_K id);
 	
 	/**
 	 * 根据ID 更新数据库记录

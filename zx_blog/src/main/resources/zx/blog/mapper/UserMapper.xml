@@ -33,7 +33,7 @@
 		, #{userState}, #{privilege}, #{imgUrl})
 	</insert>
 	
-	<select id="slelectById" resultMap="user" parameterType="java.lang.Integer" >
+	<select id="selectById" resultMap="user" parameterType="java.lang.Integer" >
 		SELECT 
 		<include refid="base_column_list" />
 		FROM user 
@@ -49,7 +49,7 @@
 		userState = #{userState}, 
 		privilege = #{privilege},
 		imgUrl = #{imgUrl}
-		WHERE userId = #{id}
+		WHERE userId = #{userId}
 	</update>
 	
 	<delete id="delete" >

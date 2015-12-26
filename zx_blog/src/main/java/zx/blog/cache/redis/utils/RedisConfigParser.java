@@ -25,7 +25,7 @@ public class RedisConfigParser {
 		return instance;
 	}
 	
-	private String configFileName = System.getProperty("redis.config.path", "redis.properties");
+	private String configFileName = System.getProperty("redis.config.path", "props/redis.properties");
 	
 	/**
 	 * 解析redis properties配置文件

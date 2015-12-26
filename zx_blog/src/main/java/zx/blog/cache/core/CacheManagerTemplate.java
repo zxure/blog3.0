@@ -26,7 +26,7 @@ public interface CacheManagerTemplate<DB_K extends Serializable, V extends Table
 	 * @return
 	 */
 	default V select(DB_K dbKey){
-		return this.getCorrespondingMapper().slelectById(dbKey);
+		return this.getCorrespondingMapper().selectById(dbKey);
 	}
 	
 	/**

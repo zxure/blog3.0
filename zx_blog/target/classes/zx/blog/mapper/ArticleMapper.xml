@@ -58,7 +58,7 @@
 </select>
 
 <!-- 根据文章ID查询文章 -->
-<select id="slelectById" resultMap="article" parameterType="java.lang.Integer">
+<select id="selectById" resultMap="article" parameterType="java.lang.Integer">
 	SELECT 
 	<include refid="base_column_list" /> 
 	FROM article WHERE 

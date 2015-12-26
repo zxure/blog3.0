@@ -40,31 +40,36 @@ public abstract class SimpleCacheManager<DB_K extends Serializable, V extends Ta
 		List<BaseCacheAccessor<V>> needToBeSetCacheList = new ArrayList<BaseCacheAccessor<V>>();
 		
 		for(BaseCacheAccessor<V> baseCacheAccessor : accessorContainer.getAccessorList()){
-			if( (entity = baseCacheAccessor.get(getCacheType(), cacheKey)) == null){
+			if( (entity = baseCacheAccessor.get(getCacheType(), cacheKey)) != null){
 				break;
 			}
 			needToBeSetCacheList.add(baseCacheAccessor);
 		}
 		
-		//2、缓存没有查询数据库
-		if(entity == null){
-			entity = this.select(dbKey);
-			
-			//3、 数据库 有 记录，
-			if(entity != null){
-				//设置到缓存中区
-				// TODO 修改写法
-				//needToBeSetCacheList.stream().forEach(accessor->accessor.set(getCacheType(), cacheKey, entity));
-				
-				for(BaseCacheAccessor<V> needToSetBaseCacheAccessor : accessorContainer.getAccessorList()){
-					needToSetBaseCacheAccessor.set(getCacheType(), cacheKey, entity);
-				}
-				
-				return Optional.of(entity);
-			}
+		//缓存有记录
+		if(entity != null){
+			return Optional.of(entity);
 		}
 		
+		//2、缓存没有数据，则查询数据库
+		entity = this.select(dbKey);
+		
+		//3、 数据库 有 记录，
+		if(entity != null){
+			//设置到缓存中区
+			// TODO 修改写法
+			//needToBeSetCacheList.stream().forEach(accessor->accessor.set(getCacheType(), cacheKey, entity));
+			
+			for(BaseCacheAccessor<V> needToSetBaseCacheAccessor : accessorContainer.getAccessorList()){
+				needToSetBaseCacheAccessor.set(getCacheType(), cacheKey, entity);
+			}
+			
+			return Optional.of(entity);
+		}
+		
+		//数据库也没有记录
 		return Optional.empty();
+		
 	};
 	
 	private Supplier<List<V>> findAllOpt = ()->{

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import zx.blog.cache.container.BaseContainer;
@@ -23,6 +24,15 @@ public class MapperContainer extends BaseContainer{
 	@PostConstruct
 	public void init(){
 		mapperMap = applicationContext.getBeansOfType(BaseMapper.class);
+		
+		ApplicationContext parentContent = applicationContext.getParent();
+		
+		while(parentContent != null){
+			mapperMap.putAll(applicationContext.getParent().getBeansOfType(BaseMapper.class));
+			
+			parentContent = parentContent.getParent();
+		}
+		
 	}
 	
 	/**

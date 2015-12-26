@@ -21,12 +21,12 @@
 			SELECT LAST_INSERT_ID()
 		</selectKey>
 	</insert>
-	
+
 	<select id="selectById" resultMap="category" parameterType="java.lang.Integer">
 		select
 		<include refid="base_column_list" />
 		from category 
-		where categoryId={#id};
+		where categoryId=#{id};
 	</select>
 	
 	<update id="update" parameterType="zx.blog.category.domain.Category">

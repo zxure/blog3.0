@@ -96,7 +96,7 @@ public class ArticleServiceImpl implements ArticleService{
 
 	@Override
 	public ArticleDto getArticleDtoById(int articleId) {
-		Article article= this.articleDao.slelectById(articleId);
+		Article article= this.articleDao.selectById(articleId);
 		int userId = article.getUserId();
 		int categoryId = article.getCategoryId();
 		return ArticleDto.valueOf(article, userCacheManager.find(User.genKey(userId), userId).get(), 
@@ -105,7 +105,7 @@ public class ArticleServiceImpl implements ArticleService{
 	
 	@Override
 	public Article getArticleById(int articleId){
-		return this.articleDao.slelectById(articleId);
+		return this.articleDao.selectById(articleId);
 	}
 
 	@Override
@@ -131,7 +131,7 @@ public class ArticleServiceImpl implements ArticleService{
 	
 	@Override
 	public void deleteArticle(int articleId){
-		Article article = this.articleDao.slelectById(articleId);
+		Article article = this.articleDao.selectById(articleId);
 		int categoryId = article.getCategoryId();
 		Category category = categoryCacheManager.find(Category.genKen(categoryId), categoryId).get();
 		this.articleDao.delete(articleId);
