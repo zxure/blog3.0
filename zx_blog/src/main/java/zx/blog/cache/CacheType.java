@@ -5,7 +5,11 @@ import zx.blog.category.domain.Category;
 import zx.blog.entity.TableRecordVersion;
 import zx.blog.user.domain.User;
 
-//缓存类型  key 枚举
+/**
+ * 缓存类型  key 枚举
+ * @author Administrator
+ *
+ */
 public enum CacheType {
 	/**用户*/
 	USER(User.class), 
@@ -20,6 +24,10 @@ public enum CacheType {
 		this.clazz = clazz;
 	}
 	
+	/**
+	 * 获取 cacheKey 对应的字节数组
+	 * @return
+	 */
 	public byte[] getKeyBytes(){
 		return this.name().getBytes();
 	}

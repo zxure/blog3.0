@@ -21,13 +21,6 @@ public class SystemContext {
 	/**每页要显示的留言数目*/
 	public static int commentPrePageNum;
 	
-	/** 实验室jsp上传文件目录, 相对于WEB-INT/views/目录 */
-	public static String libraryJspDir;
-	/** 实验室css上传文件目录, 相对于web根目录 */
-	public static String libraryStyleDir;
-	/** 实验室script上传文件目录, 相对于web根目录 */
-	public static String libraryScriptDir;
-	
 	/**
 	 * 载入配置文件
 	 */
@@ -41,10 +34,6 @@ public class SystemContext {
 			if(pageListNum % 2 == 0){//如果为偶数，则变为基数
 				pageListNum = pageListNum + 1;
 			}
-			
-			libraryJspDir = prop.getProperty("libraryJspDir", "library/items/");
-			libraryStyleDir =  prop.getProperty("libraryStyleDir", "libraryStyle/");
-			libraryScriptDir = prop.getProperty("libraryScriptDir", "libraryScript/");
 			
 		} catch (IOException e) {
 			e.printStackTrace();

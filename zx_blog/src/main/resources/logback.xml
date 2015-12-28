@@ -9,13 +9,12 @@
 		</encoder>
 	</appender>
 
-	<appender name="FILE"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${LOG_HOME}/xhc.log</file>
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME}/blog.log</file>
 		<Encoding>UTF-8</Encoding>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!--日志文件输出的文件名 -->
-			<FileNamePattern>${LOG_HOME}/xhc.log.%d{yyyy-MM-dd}.%i.log
+			<FileNamePattern>${LOG_HOME}/blog.log.%d{yyyy-MM-dd}.%i.log
 			</FileNamePattern>
 			<MaxHistory>60</MaxHistory>
 
@@ -28,21 +27,26 @@
 		</rollingPolicy>
 		<layout class="ch.qos.logback.classic.PatternLayout">
 			<!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
-			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} -
-				%msg%n
+			<pattern>
+				%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n
 			</pattern>
 		</layout>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 过滤掉错误日志 -->
+			<level>ERROR</level>
+			<onMatch>DENY</onMatch>
+			<onMismatch>ACCEPT</onMismatch>
+		</filter>
 		<!--日志文件最大的大小 -->
 	</appender>
 
 
-	<appender name="error"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${LOG_HOME}/err/xhcError.log</file>
+	<appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME}/err/blogError.log</file>
 		<Encoding>UTF-8</Encoding>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!--日志文件输出的文件名 -->
-			<FileNamePattern>${LOG_HOME}/err/xhcError.log.%d{yyyy-MM-dd}.%i.log
+			<FileNamePattern>
+				${LOG_HOME}/err/blogError.log.%d{yyyy-MM-dd}.%i.log
 			</FileNamePattern>
 			<MaxHistory>60</MaxHistory>
 
@@ -55,32 +59,28 @@
 		</rollingPolicy>
 		<layout class="ch.qos.logback.classic.PatternLayout">
 			<!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
-			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} -
-				%msg%n
+			<pattern>
+				%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n
 			</pattern>
 		</layout>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印错误日志 -->
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
 		<!--日志文件最大的大小 -->
 	</appender>
 
-	<!-- <logger name="java.sql" level="DEBUG"> <appender-ref ref="stdout" /> 
-		<appender-ref ref="FILE" /> </logger> -->
-	
 	<logger name="org.mybatis" level="debug">
+		<appender-ref ref="stdout" />
 		<appender-ref ref="error" />
-	</logger>
-	
-	<logger name="org.apache" level="debug">
-		<appender-ref ref="error" />
+		<appender-ref ref="FILE" />
 	</logger>
 	
 	<logger name="org.apache" level="debug">
 		<appender-ref ref="stdout" />
+		<appender-ref ref="error" />
 		<appender-ref ref="FILE" />
 	</logger>
-
-	<logger name="org.mybatis" level="debug">
-		<appender-ref ref="stdout" />
-		<appender-ref ref="FILE" />
-	</logger>
-
+	
 </configuration>
