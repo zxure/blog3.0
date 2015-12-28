@@ -48,7 +48,7 @@ public interface BaseCacheAccessor<V extends TableRecordVersion> {
 	 * 获取全部缓存
 	 * @param type
 	 */
-	public Optional<List<V>> findAll(CacheType type);
+	public List<V> findAll(CacheType type);
 	
 	/**
 	 * 清理某个类型的缓存

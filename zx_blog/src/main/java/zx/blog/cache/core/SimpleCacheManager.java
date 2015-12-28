@@ -50,7 +50,8 @@ public abstract class SimpleCacheManager<DB_K extends Serializable, V extends Ta
 		List<BaseCacheAccessor<V>> needToBeSetCacheList = new ArrayList<BaseCacheAccessor<V>>();
 		
 		for(BaseCacheAccessor<V> baseCacheAccessor : accessorContainer.getAccessorList()){
-			if( (entityOptional = baseCacheAccessor.get(getCacheType(), cacheKey)) != null){
+			entityOptional = baseCacheAccessor.get(getCacheType(), cacheKey);
+			if( entityOptional.isPresent() ){
 				break;
 			}
 			needToBeSetCacheList.add(baseCacheAccessor);
@@ -62,7 +63,7 @@ public abstract class SimpleCacheManager<DB_K extends Serializable, V extends Ta
 		}
 		
 		//2、缓存没有数据，则查询数据库
-		entityOptional = Optional.of(this.select(dbKey));
+		entityOptional = this.select(dbKey);
 		
 		//3、 数据库 有 记录，
 		if(entityOptional.isPresent()){
@@ -83,7 +84,7 @@ public abstract class SimpleCacheManager<DB_K extends Serializable, V extends Ta
 	};
 	
 	private Supplier<List<V>> findAllOpt = ()->{
-		Optional<List<V>> result = null;
+		List<V> result = null;
 		
 		//TODO  先从缓存查询
 		for(BaseCacheAccessor<V> baseCacheAccessor : accessorContainer.getAccessorList()){
@@ -93,11 +94,11 @@ public abstract class SimpleCacheManager<DB_K extends Serializable, V extends Ta
 		}
 		
 		//缓存不存在，则从数据库查询
-		if(!result.isPresent()){
+		if(result != null){
 			return this.selectAll();
 		}
 		
-		return null;
+		return result;
 	};
 	
 	/**insert的逻辑处理器*/

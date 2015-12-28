@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
 
@@ -70,6 +69,9 @@ public class RedisCacheAccessor<V extends TableRecordVersion> implements BaseCac
 	@Override
 	public Optional<V> get(CacheType type, String cacheKey){
 		V entity = (V) SerializeUtil.unserialize((byte[]) this.execute(jedis->jedis.hget(type.getKeyBytes(), cacheKey.getBytes())));
+		if(entity == null){
+			return Optional.empty();
+		}
 		return Optional.of(entity);
 	}
 	
@@ -101,16 +103,13 @@ public class RedisCacheAccessor<V extends TableRecordVersion> implements BaseCac
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public Optional<List<V>> findAll(CacheType type) {
-		Stream<V> streamV = (Stream<V>) this.execute(jedis->jedis.hgetAll(type.getKeyBytes()).entrySet()
+	public List<V> findAll(CacheType type) {
+		List<V> result = (List<V>) this.execute(jedis->jedis.hgetAll(type.getKeyBytes()).entrySet()
 				.stream().map(entry->{
 					return (V)SerializeUtil.unserialize(entry.getValue());
-			}));//.collect(Collectors.toList()));
-		if(streamV.count() <= 0){
-			return Optional.empty();
-		} else {
-			return Optional.of(streamV.collect(Collectors.toList()));
-		}
+			}).collect(Collectors.toList()));
+			
+			return result;
 	}
 
 	@Override
