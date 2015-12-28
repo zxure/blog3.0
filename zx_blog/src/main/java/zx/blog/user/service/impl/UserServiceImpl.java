@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import zx.blog.cache.core.impl.UserCacheManager;
-import zx.blog.mapper.UserMapper;
 import zx.blog.user.domain.User;
 import zx.blog.user.service.UserService;
 
@@ -17,9 +16,6 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private UserCacheManager userCacheManager;
-	
-	@Autowired
-	private UserMapper userMapper;
 	
 	@Override
 	public List<User> findAllUser() {
@@ -40,6 +36,6 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public void updateUserLoginTime(User user) {
-		this.userMapper.update(user);
+		this.userCacheManager.update(user);
 	}
 }

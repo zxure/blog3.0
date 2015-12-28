@@ -1,5 +1,8 @@
 package zx.blog.cache.base.accessor;
 
+import java.util.List;
+import java.util.Optional;
+
 import zx.blog.cache.CacheType;
 import zx.blog.cache.base.config.BaseConfig;
 import zx.blog.entity.TableRecordVersion;
@@ -16,7 +19,7 @@ public interface BaseCacheAccessor<V extends TableRecordVersion> {
 	 * @param cacheKey 
 	 * @return
 	 */
-	public V get(CacheType type, String cacheKey);
+	public Optional<V> get(CacheType type, String cacheKey);
 	
 	/**
 	 * 设置到缓存
@@ -40,6 +43,18 @@ public interface BaseCacheAccessor<V extends TableRecordVersion> {
 	 * @param value
 	 */
 	public void update(CacheType type, String cacheKey, V value);
+	
+	/**
+	 * 获取全部缓存
+	 * @param type
+	 */
+	public Optional<List<V>> findAll(CacheType type);
+	
+	/**
+	 * 清理某个类型的缓存
+	 * @param type
+	 */
+	public void clear(CacheType type);
 	
 	/**
 	 * 获取缓存配置

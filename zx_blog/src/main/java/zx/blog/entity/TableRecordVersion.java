@@ -42,6 +42,20 @@ public abstract class TableRecordVersion implements Serializable{
 	public void setReadWriteFlag(boolean readWriteFlag) {
 		this.readWriteFlag = readWriteFlag;
 	}
+	
+	public static Serializable getDbId(String cacheKey){
+		String[] strs = cacheKey.split(SEPERATOR);
+		String id = strs[strs.length - 1];
+		try{
+			return Integer.parseInt(id);
+		} catch(NumberFormatException intE) {
+			try{
+				return Long.parseLong(id);
+			} catch(NumberFormatException longE) {
+				return id;
+			}
+		}
+	}
 
 	@Override
 	public String toString() {

@@ -4,7 +4,6 @@ import java.nio.charset.Charset;
 
 import org.apache.commons.lang3.StringUtils;
 import org.htmlparser.Node;
-import org.htmlparser.NodeFilter;
 import org.htmlparser.Parser;
 import org.htmlparser.PrototypicalNodeFactory;
 import org.htmlparser.tags.CompositeTag;
@@ -36,20 +35,11 @@ public class ArticleBriefTools {
 		factory.registerTag(new Pre());
 		NodeList nodes = null;
 		try {
-			nodes = parser.extractAllNodesThatMatch(new NodeFilter() {
-				private static final long serialVersionUID = 4476668746854748093L;
-
-				@Override
-				public boolean accept(Node node) {
-					if(node instanceof CompositeTag)
-						return true;
-					return false;
-				}
-			});
-		} catch (ParserException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			nodes = parser.extractAllNodesThatMatch(node->node instanceof CompositeTag);
+		} catch (ParserException e1) {
+			e1.printStackTrace();
 		}
+		
 		for(int i = 0; i < nodes.size(); i++){
 			Node node = nodes.elementAt(i);
 			//result.append(node.toHtml());

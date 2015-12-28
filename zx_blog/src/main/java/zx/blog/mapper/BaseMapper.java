@@ -38,7 +38,7 @@ public interface BaseMapper<DB_K extends Serializable, V extends TableRecordVers
 	 * 根据ID删除
 	 * @param id
 	 */
-	public void delete(DB_K id);
+	public void delete(Serializable id);
 
 	/**
 	 * 查询全部记录

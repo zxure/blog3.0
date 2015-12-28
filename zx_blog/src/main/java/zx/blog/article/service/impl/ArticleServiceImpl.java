@@ -2,11 +2,8 @@ package zx.blog.article.service.impl;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -38,22 +35,11 @@ public class ArticleServiceImpl implements ArticleService{
 	@Autowired
 	private CategoryMapper categoryDao;
 	
-	private Function<Article, ArticleDto> articleBriefDtoCreatorFunction = null;
-	
-	@PostConstruct
-	public void init(){
-		ArticleDtoCreatorFunction articleDtoCreatorFunction = article->{
-			User user = userCacheManager.find(User.genKey(article.getUserId()), article.getUserId()).get();
-			Category category = categoryCacheManager.find(Category.genKen(article.getCategoryId()), article.getCategoryId()).get();
-			return ArticleDto.valueOf(article, user, category);
-		};
-		
-		BiFunction<String, Integer, String> briefContentSupplier = ArticleBriefTools::getBrief;
-		
-		articleBriefDtoCreatorFunction = (Function<Article, ArticleDto>)(articleDtoCreatorFunction::create);
-		
-		articleBriefDtoCreatorFunction = articleBriefDtoCreatorFunction.andThen(articleDto->articleDto.setBriefContent(briefContentSupplier));
-	}
+	private Function<Article, ArticleDto> 	articleBriefDtoCreatorFunction = ((Function<Article, ArticleDto>)article->{
+		User user = userCacheManager.find(User.genKey(article.getUserId()), article.getUserId()).get();
+		Category category = categoryCacheManager.find(Category.genKen(article.getCategoryId()), article.getCategoryId()).get();
+		return ArticleDto.valueOf(article, user, category);
+		}).andThen(articleDto->articleDto.setBriefContent(ArticleBriefTools::getBrief));
 
 	@Override
 	public boolean addArticle(final Article article) {
